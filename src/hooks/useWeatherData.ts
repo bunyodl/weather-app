@@ -34,6 +34,8 @@ export function useWeatherData(): UseWeatherDataReturn {
       );
 
       setWeatherData(data);
+      console.log("data", data);
+
       setLastUpdated(new Date());
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred");
@@ -58,4 +60,3 @@ export function useWeatherData(): UseWeatherDataReturn {
     fetchWeather,
   };
 }
-

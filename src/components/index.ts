@@ -11,3 +11,4 @@ export { WeatherDisplay } from "./weather-display/WeatherDisplay";
 export { SearchSection } from "./search-section/SearchSection";
 export { LocationPermission } from "./location-permission/LocationPermission";
 export { LocationSuggestions } from "./location-suggestions/LocationSuggestions";
+export { TimezoneIndicator } from "./timezone-indicator/TimezoneIndicator";

@@ -10,6 +10,9 @@ interface SearchSectionProps {
   onRequestLocation: () => void;
   showLocationPermission: boolean;
   showSuggestions: boolean;
+  timezone: string;
+  timezoneAbbr: string;
+  hasLocationPermission: boolean;
 }
 
 export function SearchSection(props: SearchSectionProps) {

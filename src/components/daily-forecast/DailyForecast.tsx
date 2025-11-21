@@ -12,6 +12,8 @@ import styles from "./DailyForecast.module.css";
 interface DailyForecastProps {
   data: WeatherData | null;
   days?: number;
+  timezone: string;
+  timezoneAbbr: string;
 }
 
 export const DailyForecast: Component<DailyForecastProps> = (props) => {
@@ -28,13 +30,16 @@ export const DailyForecast: Component<DailyForecastProps> = (props) => {
 
   return (
     <div class={styles.dailyForecast}>
-      <h3 class={styles.forecastTitle}>Daily Forecast</h3>
+      <div class={styles.header}>
+        <h3 class={styles.forecastTitle}>Daily Forecast</h3>
+        <p class={styles.timezoneText}>Times in {props.timezoneAbbr}</p>
+      </div>
       <div class={styles.dailyList}>
         <For each={dailyData()}>
           {(day) => (
             <div class={styles.dailyItem}>
               <div class={styles.dailyDate}>
-                <p class={styles.dateText}>{formatDate(day.date)}</p>
+                <p class={styles.dateText}>{formatDate(day.date, props.timezone)}</p>
               </div>
 
               <div class={styles.dailyTemps}>

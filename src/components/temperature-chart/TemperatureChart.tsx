@@ -3,11 +3,14 @@ import { Chart, Title, Tooltip, Legend, Colors } from "chart.js";
 import { Line } from "solid-chartjs";
 import type { WeatherData } from "../../types/weather.types";
 import { getHourlyForecast, isWeatherData } from "../../utils/weather.utils";
+import { formatDateTimeInTimezone } from "../../utils/timezone";
 import styles from "./TemperatureChart.module.css";
 
 interface TemperatureChartProps {
   data: WeatherData | null;
   hours?: number;
+  timezone: string;
+  timezoneAbbr: string;
 }
 
 export const TemperatureChart: Component<TemperatureChartProps> = (props) => {
@@ -27,14 +30,9 @@ export const TemperatureChart: Component<TemperatureChartProps> = (props) => {
     );
 
     return {
-      labels: hourlyData.map((hour) => {
-        const date = new Date(hour.time);
-        return date.toLocaleString("en-US", {
-          month: "short",
-          day: "numeric",
-          hour: "numeric",
-        });
-      }),
+      labels: hourlyData.map((hour) =>
+        formatDateTimeInTimezone(hour.time, props.timezone),
+      ),
       datasets: [
         {
           label: `Temperature (${data.hourly_units.temperature_2m})`,
@@ -87,7 +85,10 @@ export const TemperatureChart: Component<TemperatureChartProps> = (props) => {
 
   return (
     <div class={styles.temperatureChart}>
-      <h3 class={styles.chartTitle}>Temperature Trend</h3>
+      <div class={styles.header}>
+        <h3 class={styles.chartTitle}>Temperature Trend</h3>
+        <p class={styles.timezoneText}>Times in {props.timezoneAbbr}</p>
+      </div>
       <div class={styles.chartContainer}>
         <Line
           data={chartData()}

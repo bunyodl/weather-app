@@ -38,7 +38,7 @@ export const LocationSearch: Component<LocationSearchProps> = (props) => {
       } finally {
         setIsSearching(false);
       }
-    }, 300);
+    }, 700);
   };
 
   const handleLocationSelect = (location: Location) => {

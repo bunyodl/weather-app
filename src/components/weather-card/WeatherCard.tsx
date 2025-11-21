@@ -7,6 +7,8 @@ import styles from "./WeatherCard.module.css";
 interface WeatherCardProps {
   data: WeatherData;
   locationName?: string;
+  timezone: string;
+  timezoneAbbr: string;
 }
 
 const getWeatherIcon = (temp: number) => {
@@ -36,7 +38,7 @@ export const WeatherCard: Component<WeatherCardProps> = (props) => {
             {props.data.latitude.toFixed(2)}°, {props.data.longitude.toFixed(2)}
             °
           </p>
-          <p class={styles.timezone}>{props.data.timezone}</p>
+          <p class={styles.timezone}>{props.timezoneAbbr}</p>
         </div>
       </div>
 
@@ -46,7 +48,9 @@ export const WeatherCard: Component<WeatherCardProps> = (props) => {
         </div>
         <div class={styles.temperatureDisplay}>
           <span class={styles.temperature}>{currentTemp().toFixed(1)}</span>
-          <span class={styles.unit}>{props.data.current_units.temperature_2m}</span>
+          <span class={styles.unit}>
+            {props.data.current_units.temperature_2m}
+          </span>
         </div>
       </div>
 
@@ -74,4 +78,3 @@ export const WeatherCard: Component<WeatherCardProps> = (props) => {
     </div>
   );
 };
-

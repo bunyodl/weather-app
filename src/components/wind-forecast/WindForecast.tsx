@@ -7,12 +7,21 @@ import styles from "./WindForecast.module.css";
 interface WindForecastProps {
   data: WeatherData | null;
   hours?: number;
+  timezone: string;
+  timezoneAbbr: string;
 }
 
 interface HourlyWindData {
   time: string;
   windSpeed: number;
 }
+
+const parseUTCDateString = (dateString: string): Date => {
+  if (dateString.endsWith("Z")) {
+    return new Date(dateString);
+  }
+  return new Date(dateString + "Z");
+};
 
 const getHourlyWind = (
   times: string[],
@@ -21,7 +30,7 @@ const getHourlyWind = (
 ): HourlyWindData[] => {
   const now = new Date();
   const startIndex = times.findIndex((time) => {
-    const date = new Date(time);
+    const date = parseUTCDateString(time);
     return date >= now;
   });
 
@@ -64,14 +73,17 @@ export const WindForecast: Component<WindForecastProps> = (props) => {
   return (
     <div class={styles.windForecast}>
       <div class={styles.header}>
-        <Wind size={24} />
-        <h3 class={styles.title}>Wind Speed Forecast</h3>
+        <div class={styles.titleWrapper}>
+          <Wind size={24} />
+          <h3 class={styles.title}>Wind Speed Forecast</h3>
+        </div>
+        <p class={styles.timezoneText}>Times in {props.timezoneAbbr}</p>
       </div>
       <div class={styles.hourlyScroll}>
         <For each={hourlyData()}>
           {(hour) => (
             <div class={styles.hourlyItem}>
-              <p class={styles.hourTime}>{formatTime(hour.time)}</p>
+              <p class={styles.hourTime}>{formatTime(hour.time, props.timezone)}</p>
               <div class={styles.windIndicator}>
                 <Wind
                   size={32}

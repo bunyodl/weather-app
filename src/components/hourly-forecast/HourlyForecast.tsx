@@ -11,6 +11,8 @@ import styles from "./HourlyForecast.module.css";
 interface HourlyForecastProps {
   data: WeatherData | null;
   hours?: number;
+  timezone: string;
+  timezoneAbbr: string;
 }
 
 export const HourlyForecast: Component<HourlyForecastProps> = (props) => {
@@ -27,12 +29,17 @@ export const HourlyForecast: Component<HourlyForecastProps> = (props) => {
 
   return (
     <div class={styles.hourlyForecast}>
-      <h3 class={styles.forecastTitle}>Hourly Temperature</h3>
+      <div class={styles.header}>
+        <h3 class={styles.forecastTitle}>Hourly Temperature</h3>
+        <p class={styles.timezoneText}>Times in {props.timezoneAbbr}</p>
+      </div>
       <div class={styles.hourlyScroll}>
         <For each={hourlyData()}>
           {(hour) => (
             <div class={styles.hourlyItem}>
-              <p class={styles.hourTime}>{formatTime(hour.time)}</p>
+              <p class={styles.hourTime}>
+                {formatTime(hour.time, props.timezone)}
+              </p>
               <div
                 class={styles.hourTempBar}
                 style={{
@@ -53,4 +60,3 @@ export const HourlyForecast: Component<HourlyForecastProps> = (props) => {
     </div>
   );
 };
-

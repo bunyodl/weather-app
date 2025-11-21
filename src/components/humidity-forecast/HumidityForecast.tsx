@@ -7,12 +7,21 @@ import styles from "./HumidityForecast.module.css";
 interface HumidityForecastProps {
   data: WeatherData | null;
   hours?: number;
+  timezone: string;
+  timezoneAbbr: string;
 }
 
 interface HourlyHumidityData {
   time: string;
   humidity: number;
 }
+
+const parseUTCDateString = (dateString: string): Date => {
+  if (dateString.endsWith("Z")) {
+    return new Date(dateString);
+  }
+  return new Date(dateString + "Z");
+};
 
 const getHourlyHumidity = (
   times: string[],
@@ -21,7 +30,7 @@ const getHourlyHumidity = (
 ): HourlyHumidityData[] => {
   const now = new Date();
   const startIndex = times.findIndex((time) => {
-    const date = new Date(time);
+    const date = parseUTCDateString(time);
     return date >= now;
   });
 
@@ -56,14 +65,19 @@ export const HumidityForecast: Component<HumidityForecastProps> = (props) => {
   return (
     <div class={styles.humidityForecast}>
       <div class={styles.header}>
-        <Droplets size={24} />
-        <h3 class={styles.title}>Humidity Forecast</h3>
+        <div class={styles.titleWrapper}>
+          <Droplets size={24} />
+          <h3 class={styles.title}>Humidity Forecast</h3>
+        </div>
+        <p class={styles.timezoneText}>Times in {props.timezoneAbbr}</p>
       </div>
       <div class={styles.hourlyScroll}>
         <For each={hourlyData()}>
           {(hour) => (
             <div class={styles.hourlyItem}>
-              <p class={styles.hourTime}>{formatTime(hour.time)}</p>
+              <p class={styles.hourTime}>
+                {formatTime(hour.time, props.timezone)}
+              </p>
               <div
                 class={styles.humidityBar}
                 style={{
@@ -84,4 +98,3 @@ export const HumidityForecast: Component<HumidityForecastProps> = (props) => {
     </div>
   );
 };
-

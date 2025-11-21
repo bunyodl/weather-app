@@ -14,6 +14,8 @@ import styles from "./WeatherDisplay.module.css";
 interface WeatherDisplayProps {
   data: WeatherData;
   location: Location;
+  timezone: string;
+  timezoneAbbr: string;
 }
 
 export function WeatherDisplay(props: WeatherDisplayProps) {
@@ -23,6 +25,8 @@ export function WeatherDisplay(props: WeatherDisplayProps) {
         <WeatherCard
           data={props.data}
           locationName={formatLocationName(props.location)}
+          timezone={props.timezone}
+          timezoneAbbr={props.timezoneAbbr}
         />
         <WeatherStats data={props.data} />
       </div>
@@ -31,14 +35,20 @@ export function WeatherDisplay(props: WeatherDisplayProps) {
         <HourlyForecast
           data={props.data}
           hours={48}
+          timezone={props.timezone}
+          timezoneAbbr={props.timezoneAbbr}
         />
         <HumidityForecast
           data={props.data}
           hours={48}
+          timezone={props.timezone}
+          timezoneAbbr={props.timezoneAbbr}
         />
         <WindForecast
           data={props.data}
           hours={48}
+          timezone={props.timezone}
+          timezoneAbbr={props.timezoneAbbr}
         />
       </div>
 
@@ -46,6 +56,8 @@ export function WeatherDisplay(props: WeatherDisplayProps) {
         <DailyForecast
           data={props.data}
           days={7}
+          timezone={props.timezone}
+          timezoneAbbr={props.timezoneAbbr}
         />
       </div>
 
@@ -53,6 +65,8 @@ export function WeatherDisplay(props: WeatherDisplayProps) {
         <TemperatureChart
           data={props.data}
           hours={168}
+          timezone={props.timezone}
+          timezoneAbbr={props.timezoneAbbr}
         />
       </div>
     </div>

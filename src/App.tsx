@@ -5,6 +5,7 @@ import { SearchSection, StatusBar, WeatherDisplay } from "./components";
 import { useWeatherData } from "./hooks/useWeatherData";
 import { useAutoRefresh } from "./hooks/useAutoRefresh";
 import { useGeolocation } from "./hooks/useGeolocation";
+import { useUserTimezone } from "./hooks/useUserTimezone";
 import { WeatherService } from "./services/weather.service";
 
 const REFRESH_INTERVAL_MS = 3 * 60 * 1000; // 3 minutes
@@ -29,6 +30,18 @@ function App() {
     error: geoError,
     requestLocation,
   } = useGeolocation();
+
+  const {
+    timezone,
+    timezoneAbbr,
+    hasLocationPermission,
+    setHasLocationPermission,
+  } = useUserTimezone();
+
+  createEffect(() => {
+    const perm = permission();
+    setHasLocationPermission(perm === "granted");
+  });
 
   createEffect(async () => {
     const coords = coordinates();
@@ -99,6 +112,9 @@ function App() {
         onRequestLocation={requestLocation}
         showLocationPermission={showLocationPermission()}
         showSuggestions={showSuggestions()}
+        timezone={timezone()}
+        timezoneAbbr={timezoneAbbr()}
+        hasLocationPermission={hasLocationPermission()}
       />
 
       <Show when={loading()}>
@@ -124,6 +140,8 @@ function App() {
           <WeatherDisplay
             data={weatherData()!}
             location={selectedLocation()!}
+            timezone={timezone()}
+            timezoneAbbr={timezoneAbbr()}
           />
         </div>
       </Show>

@@ -7,11 +7,25 @@
   transition: opacity 0.3s ease;
 }
 
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
 .forecastTitle {
-  margin: 0 0 1rem 0;
+  margin: 0;
   font-size: 1.25rem;
   font-weight: 600;
   color: #1f2937;
+}
+
+.timezoneText {
+  margin: 0;
+  font-size: 0.75rem;
+  color: #6b7280;
+  font-weight: 500;
 }
 
 .hourlyScroll {

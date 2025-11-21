@@ -9,9 +9,15 @@
 
 .header {
   display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.titleWrapper {
+  display: flex;
   align-items: center;
   gap: 0.5rem;
-  margin-bottom: 1rem;
   color: #10b981;
 }
 
@@ -20,6 +26,13 @@
   font-size: 1.25rem;
   font-weight: 600;
   color: #1f2937;
+}
+
+.timezoneText {
+  margin: 0;
+  font-size: 0.75rem;
+  color: #6b7280;
+  font-weight: 500;
 }
 
 .hourlyScroll {
