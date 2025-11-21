@@ -1,0 +1,69 @@
+.daily-forecast {
+  background: white;
+  border-radius: 20px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 100%;
+}
+
+.daily-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.daily-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem;
+  border-radius: 12px;
+  transition: background-color 0.2s;
+}
+
+.daily-item:hover {
+  background-color: #f9fafb;
+}
+
+.daily-date {
+  min-width: 100px;
+}
+
+.date-text {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.daily-temps {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+}
+
+.temp-high,
+.temp-low {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  min-width: 60px;
+}
+
+.temp-bar-container {
+  flex: 1;
+  height: 8px;
+  background-color: #f3f4f6;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.temp-bar {
+  height: 100%;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
