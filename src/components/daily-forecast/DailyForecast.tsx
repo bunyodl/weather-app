@@ -1,13 +1,13 @@
 import { type Component, For } from "solid-js";
 import { ArrowDown, ArrowUp } from "lucide-solid";
-import type { WeatherData } from "../types/weather.types";
+import type { WeatherData } from "../../types/weather.types";
 import {
   getDailyForecast,
   formatDate,
   getTemperatureColor,
   isWeatherData,
-} from "../utils/weather.utils";
-import "./DailyForecast.css";
+} from "../../utils/weather.utils";
+import styles from "./DailyForecast.module.css";
 
 interface DailyForecastProps {
   data: WeatherData | null;
@@ -27,27 +27,27 @@ export const DailyForecast: Component<DailyForecastProps> = (props) => {
     );
 
   return (
-    <div class="daily-forecast">
-      <h3 class="forecast-title">Daily Forecast</h3>
-      <div class="daily-list">
+    <div class={styles.dailyForecast}>
+      <h3 class={styles.forecastTitle}>Daily Forecast</h3>
+      <div class={styles.dailyList}>
         <For each={dailyData()}>
           {(day) => (
-            <div class="daily-item">
-              <div class="daily-date">
-                <p class="date-text">{formatDate(day.date)}</p>
+            <div class={styles.dailyItem}>
+              <div class={styles.dailyDate}>
+                <p class={styles.dateText}>{formatDate(day.date)}</p>
               </div>
 
-              <div class="daily-temps">
-                <div class="temp-high">
+              <div class={styles.dailyTemps}>
+                <div class={styles.tempHigh}>
                   <ArrowUp size={16} />
                   <span style={{ color: getTemperatureColor(day.maxTemp) }}>
                     {day.maxTemp.toFixed(1)}°
                   </span>
                 </div>
 
-                <div class="temp-bar-container">
+                <div class={styles.tempBarContainer}>
                   <div
-                    class="temp-bar"
+                    class={styles.tempBar}
                     style={{
                       background: `linear-gradient(90deg,
                         ${getTemperatureColor(day.minTemp)} 0%,
@@ -57,7 +57,7 @@ export const DailyForecast: Component<DailyForecastProps> = (props) => {
                   />
                 </div>
 
-                <div class="temp-low">
+                <div class={styles.tempLow}>
                   <ArrowDown size={16} />
                   <span style={{ color: getTemperatureColor(day.minTemp) }}>
                     {day.minTemp.toFixed(1)}°
@@ -71,3 +71,4 @@ export const DailyForecast: Component<DailyForecastProps> = (props) => {
     </div>
   );
 };
+

@@ -1,4 +1,4 @@
-.weather-card {
+.weatherCard {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   border-radius: 20px;
   padding: 2rem;
@@ -8,17 +8,17 @@
   width: 100%;
 }
 
-.weather-card-header {
+.weatherCardHeader {
   margin-bottom: 2rem;
 }
 
-.location-info h2 {
+.locationInfo h2 {
   margin: 0 0 0.5rem 0;
   font-size: 1.5rem;
   font-weight: 600;
 }
 
-.location-name {
+.locationName {
   margin: 0.25rem 0;
   font-size: 1.1rem;
   font-weight: 500;
@@ -37,18 +37,18 @@
   opacity: 0.8;
 }
 
-.weather-card-body {
+.weatherCardBody {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 2rem;
 }
 
-.weather-icon {
+.weatherIcon {
   opacity: 0.9;
 }
 
-.temperature-display {
+.temperatureDisplay {
   display: flex;
   align-items: flex-start;
   gap: 0.25rem;
@@ -67,27 +67,28 @@
   margin-top: 0.5rem;
 }
 
-.weather-card-footer {
+.weatherCardFooter {
   display: flex;
   gap: 2rem;
   padding-top: 1.5rem;
   border-top: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.weather-stat {
+.weatherStat {
   display: flex;
   align-items: center;
   gap: 0.75rem;
 }
 
-.stat-label {
+.statLabel {
   margin: 0;
   font-size: 0.75rem;
   opacity: 0.8;
 }
 
-.stat-value {
+.statValue {
   margin: 0.25rem 0 0 0;
   font-size: 1rem;
   font-weight: 600;
 }
+

@@ -8,6 +8,8 @@ import {
   TemperatureChart,
   WeatherStats,
   LocationSearch,
+  HumidityForecast,
+  WindForecast,
 } from "./components";
 import { WeatherService } from "./services/weather.service";
 
@@ -55,7 +57,7 @@ function App() {
     <div class="app">
       <header class="app-header">
         <h1>Weather Dashboard</h1>
-        <p>Search for any location to view weather forecast</p>
+        <p>Search for any location to view comprehensive weather data</p>
       </header>
 
       <div class="search-section">
@@ -102,6 +104,17 @@ function App() {
               data={weatherData()}
               hours={48}
             />
+            <HumidityForecast
+              data={weatherData()}
+              hours={48}
+            />
+            <WindForecast
+              data={weatherData()}
+              hours={48}
+            />
+          </div>
+
+          <div class="forecast-section">
             <DailyForecast
               data={weatherData()}
               days={7}

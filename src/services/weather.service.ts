@@ -51,7 +51,7 @@ export class WeatherService {
     const params = {
       latitude,
       longitude,
-      current: ["temperature_2m", "wind_speed_10m"],
+      current: ["temperature_2m", "wind_speed_10m", "relative_humidity_2m"],
       hourly: ["temperature_2m", "relative_humidity_2m", "wind_speed_10m"],
     };
 
@@ -90,12 +90,14 @@ export class WeatherService {
           ).toISOString(),
           temperature_2m: current.variables(0)!.value(),
           wind_speed_10m: current.variables(1)!.value(),
+          relative_humidity_2m: current.variables(2)!.value(),
           interval: Number(current.interval()),
         },
         current_units: {
           time: "iso8601",
           temperature_2m: "°C",
           wind_speed_10m: "km/h",
+          relative_humidity_2m: "%",
           interval: "seconds",
         },
         hourly: {

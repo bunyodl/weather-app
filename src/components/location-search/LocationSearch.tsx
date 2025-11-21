@@ -1,8 +1,8 @@
 import { type Component, createSignal, For, Show } from "solid-js";
 import { Search, MapPin } from "lucide-solid";
-import type { Location } from "../types/weather.types";
-import { WeatherService } from "../services/weather.service";
-import "./LocationSearch.css";
+import type { Location } from "../../types/weather.types";
+import { WeatherService } from "../../services/weather.service";
+import styles from "./LocationSearch.module.css";
 
 interface LocationSearchProps {
   onLocationSelect: (location: Location) => void;
@@ -48,15 +48,12 @@ export const LocationSearch: Component<LocationSearchProps> = (props) => {
   };
 
   return (
-    <div class="location-search">
-      <div class="search-input-container">
-        <Search
-          size={20}
-          class="search-icon"
-        />
+    <div class={styles.locationSearch}>
+      <div class={styles.searchInputContainer}>
+        <Search size={20} class={styles.searchIcon} />
         <input
           type="text"
-          class="search-input"
+          class={styles.searchInput}
           placeholder="Search for a city..."
           value={query()}
           onInput={(e) => handleSearch(e.currentTarget.value)}
@@ -65,25 +62,22 @@ export const LocationSearch: Component<LocationSearchProps> = (props) => {
           }}
         />
         <Show when={isSearching()}>
-          <div class="search-spinner" />
+          <div class={styles.searchSpinner} />
         </Show>
       </div>
 
       <Show when={showResults() && locations().length > 0}>
-        <div class="search-results">
+        <div class={styles.searchResults}>
           <For each={locations()}>
             {(location) => (
               <button
-                class="search-result-item"
+                class={styles.searchResultItem}
                 onClick={() => handleLocationSelect(location)}
               >
-                <MapPin
-                  size={16}
-                  class="location-icon"
-                />
-                <div class="location-info">
-                  <p class="location-name">{location.name}</p>
-                  <p class="location-details">
+                <MapPin size={16} class={styles.locationIcon} />
+                <div class={styles.locationInfo}>
+                  <p class={styles.locationName}>{location.name}</p>
+                  <p class={styles.locationDetails}>
                     {location.admin1 ? `${location.admin1}, ` : ""}
                     {location.country}
                   </p>
@@ -102,10 +96,11 @@ export const LocationSearch: Component<LocationSearchProps> = (props) => {
           !isSearching()
         }
       >
-        <div class="search-results">
-          <div class="no-results">No locations found</div>
+        <div class={styles.searchResults}>
+          <div class={styles.noResults}>No locations found</div>
         </div>
       </Show>
     </div>
   );
 };
+

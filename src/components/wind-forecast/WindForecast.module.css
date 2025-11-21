@@ -1,0 +1,94 @@
+.windForecast {
+  background: white;
+  border-radius: 20px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 100%;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  color: #10b981;
+}
+
+.title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.hourlyScroll {
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  padding: 1rem 0;
+  scrollbar-width: thin;
+  scrollbar-color: #e5e7eb #f9fafb;
+}
+
+.hourlyScroll::-webkit-scrollbar {
+  height: 6px;
+}
+
+.hourlyScroll::-webkit-scrollbar-track {
+  background: #f9fafb;
+  border-radius: 3px;
+}
+
+.hourlyScroll::-webkit-scrollbar-thumb {
+  background: #e5e7eb;
+  border-radius: 3px;
+}
+
+.hourlyScroll::-webkit-scrollbar-thumb:hover {
+  background: #d1d5db;
+}
+
+.hourlyItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 70px;
+}
+
+.hourTime {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #6b7280;
+}
+
+.windIndicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: sway 2s ease-in-out infinite;
+}
+
+@keyframes sway {
+  0%, 100% {
+    transform: rotate(-5deg);
+  }
+  50% {
+    transform: rotate(5deg);
+  }
+}
+
+.windSpeed {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.windLabel {
+  margin: 0;
+  font-size: 0.75rem;
+  color: #6b7280;
+  font-weight: 500;
+}
+

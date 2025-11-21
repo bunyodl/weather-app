@@ -1,4 +1,4 @@
-.hourly-forecast {
+.hourlyForecast {
   background: white;
   border-radius: 20px;
   padding: 1.5rem;
@@ -6,14 +6,14 @@
   width: 100%;
 }
 
-.forecast-title {
+.forecastTitle {
   margin: 0 0 1rem 0;
   font-size: 1.25rem;
   font-weight: 600;
   color: #1f2937;
 }
 
-.hourly-scroll {
+.hourlyScroll {
   display: flex;
   gap: 1rem;
   overflow-x: auto;
@@ -22,25 +22,25 @@
   scrollbar-color: #e5e7eb #f9fafb;
 }
 
-.hourly-scroll::-webkit-scrollbar {
+.hourlyScroll::-webkit-scrollbar {
   height: 6px;
 }
 
-.hourly-scroll::-webkit-scrollbar-track {
+.hourlyScroll::-webkit-scrollbar-track {
   background: #f9fafb;
   border-radius: 3px;
 }
 
-.hourly-scroll::-webkit-scrollbar-thumb {
+.hourlyScroll::-webkit-scrollbar-thumb {
   background: #e5e7eb;
   border-radius: 3px;
 }
 
-.hourly-scroll::-webkit-scrollbar-thumb:hover {
+.hourlyScroll::-webkit-scrollbar-thumb:hover {
   background: #d1d5db;
 }
 
-.hourly-item {
+.hourlyItem {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -48,20 +48,20 @@
   min-width: 60px;
 }
 
-.hour-time {
+.hourTime {
   margin: 0;
   font-size: 0.875rem;
   font-weight: 500;
   color: #6b7280;
 }
 
-.hour-temp-bar {
+.hourTempBar {
   width: 8px;
   border-radius: 4px;
   transition: all 0.3s ease;
 }
 
-.hour-temp {
+.hourTemp {
   margin: 0;
   font-size: 0.875rem;
   font-weight: 600;

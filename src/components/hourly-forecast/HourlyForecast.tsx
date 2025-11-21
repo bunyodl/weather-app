@@ -1,12 +1,12 @@
 import { type Component, For } from "solid-js";
-import type { WeatherData } from "../types/weather.types";
+import type { WeatherData } from "../../types/weather.types";
 import {
   getHourlyForecast,
   formatTime,
   getTemperatureColor,
   isWeatherData,
-} from "../utils/weather.utils";
-import "./HourlyForecast.css";
+} from "../../utils/weather.utils";
+import styles from "./HourlyForecast.module.css";
 
 interface HourlyForecastProps {
   data: WeatherData | null;
@@ -26,22 +26,22 @@ export const HourlyForecast: Component<HourlyForecastProps> = (props) => {
     );
 
   return (
-    <div class="hourly-forecast">
-      <h3 class="forecast-title">Hourly Forecast</h3>
-      <div class="hourly-scroll">
+    <div class={styles.hourlyForecast}>
+      <h3 class={styles.forecastTitle}>Hourly Temperature</h3>
+      <div class={styles.hourlyScroll}>
         <For each={hourlyData()}>
           {(hour) => (
-            <div class="hourly-item">
-              <p class="hour-time">{formatTime(hour.time)}</p>
+            <div class={styles.hourlyItem}>
+              <p class={styles.hourTime}>{formatTime(hour.time)}</p>
               <div
-                class="hour-temp-bar"
+                class={styles.hourTempBar}
                 style={{
                   height: `${Math.max(30, Math.abs(hour.temperature) * 2)}px`,
                   "background-color": getTemperatureColor(hour.temperature),
                 }}
               />
               <p
-                class="hour-temp"
+                class={styles.hourTemp}
                 style={{ color: getTemperatureColor(hour.temperature) }}
               >
                 {hour.temperature.toFixed(1)}°
@@ -53,3 +53,4 @@ export const HourlyForecast: Component<HourlyForecastProps> = (props) => {
     </div>
   );
 };
+

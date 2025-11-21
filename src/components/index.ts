@@ -1,6 +1,8 @@
-export { WeatherCard } from "./WeatherCard";
-export { HourlyForecast } from "./HourlyForecast";
-export { DailyForecast } from "./DailyForecast";
-export { TemperatureChart } from "./TemperatureChart";
-export { WeatherStats } from "./WeatherStats";
-export { LocationSearch } from "./LocationSearch";
+export { WeatherCard } from "./weather-card/WeatherCard";
+export { HourlyForecast } from "./hourly-forecast/HourlyForecast";
+export { DailyForecast } from "./daily-forecast/DailyForecast";
+export { TemperatureChart } from "./temperature-chart/TemperatureChart";
+export { WeatherStats } from "./weather-stats/WeatherStats";
+export { LocationSearch } from "./location-search/LocationSearch";
+export { HumidityForecast } from "./humidity-forecast/HumidityForecast";
+export { WindForecast } from "./wind-forecast/WindForecast";

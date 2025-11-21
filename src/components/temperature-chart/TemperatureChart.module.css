@@ -1,4 +1,4 @@
-.temperature-chart {
+.temperatureChart {
   background: white;
   border-radius: 20px;
   padding: 1.5rem;
@@ -6,14 +6,14 @@
   width: 100%;
 }
 
-.chart-title {
+.chartTitle {
   margin: 0 0 1rem 0;
   font-size: 1.25rem;
   font-weight: 600;
   color: #1f2937;
 }
 
-.chart-container {
+.chartContainer {
   height: 300px;
   width: 100%;
 }

@@ -1,9 +1,9 @@
 import { type Component, onMount } from "solid-js";
 import { Chart, Title, Tooltip, Legend, Colors } from "chart.js";
 import { Line } from "solid-chartjs";
-import type { WeatherData } from "../types/weather.types";
-import { getHourlyForecast, isWeatherData } from "../utils/weather.utils";
-import "./TemperatureChart.css";
+import type { WeatherData } from "../../types/weather.types";
+import { getHourlyForecast, isWeatherData } from "../../utils/weather.utils";
+import styles from "./TemperatureChart.module.css";
 
 interface TemperatureChartProps {
   data: WeatherData | null;
@@ -86,9 +86,9 @@ export const TemperatureChart: Component<TemperatureChartProps> = (props) => {
   };
 
   return (
-    <div class="temperature-chart">
-      <h3 class="chart-title">Temperature Trend</h3>
-      <div class="chart-container">
+    <div class={styles.temperatureChart}>
+      <h3 class={styles.chartTitle}>Temperature Trend</h3>
+      <div class={styles.chartContainer}>
         <Line
           data={chartData()}
           options={chartOptions}
@@ -99,3 +99,4 @@ export const TemperatureChart: Component<TemperatureChartProps> = (props) => {
     </div>
   );
 };
+

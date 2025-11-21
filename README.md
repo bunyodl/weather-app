@@ -1,125 +1,176 @@
 # Weather Dashboard
 
-A modern, interactive weather dashboard built with SolidJS and the Open-Meteo API.
+A comprehensive, modern weather dashboard built with SolidJS and the Open-Meteo API. Now using **ALL available weather data** including temperature, humidity, and wind speed!
 
-## Features
+## ✨ Features
 
 - 🔍 **Location Search** - Search for any city worldwide using geocoding
-- 🌡️ **Current Weather** - Real-time temperature and wind speed
-- 📊 **Hourly Forecast** - Visual hourly temperature forecast (up to 7 days)
+- 🌡️ **Current Weather** - Real-time temperature, humidity, and wind speed
+- 📊 **Hourly Temperature Forecast** - Visual hourly temperature forecast (up to 7 days)
+- 💧 **Hourly Humidity Forecast** - Color-coded humidity levels over time
+- 💨 **Hourly Wind Forecast** - Animated wind speed indicators
 - 📅 **Daily Forecast** - Daily min/max temperatures with gradient bars
 - 📈 **Temperature Charts** - Interactive line charts using Chart.js
 - 📊 **Statistics** - Max, min, average, and temperature range
-- 🎨 **Modern UI** - Clean, responsive design with smooth animations
+- 🎨 **Modern UI** - Clean, responsive design with CSS Modules
+- 📁 **Organized Structure** - Component-based architecture with kebab-case folders
 
-## Technology Stack
+## 🎯 Data Utilization
 
-- **SolidJS** - Reactive UI framework
-- **TypeScript** - Type-safe development
-- **OpenMeteo API** - Weather data provider
+We now use **100% of available weather data**:
+
+### Current Data
+
+- ✅ Temperature (°C)
+- ✅ Wind Speed (km/h)
+- ✅ Relative Humidity (%)
+
+### Hourly Forecast (168 hours)
+
+- ✅ Temperature (°C)
+- ✅ Relative Humidity (%)
+- ✅ Wind Speed (km/h)
+
+## 🛠️ Technology Stack
+
+- **SolidJS** ^1.9.10 - Reactive UI framework
+- **TypeScript** ~5.9.3 - Type-safe development
+- **OpenMeteo Package** ^1.2.2 - Official weather API client
 - **Chart.js** - Data visualization
-- **Lucide Icons** - Beautiful icon set
-- **Vite** - Fast build tool
+- **solid-chartjs** - SolidJS Chart.js wrapper
+- **Lucide Icons** ^0.554.0 - Beautiful icon set
+- **Vite** ^7.2.4 - Fast build tool
+- **CSS Modules** - Scoped styling
 
-## Project Structure
+## 📁 Project Structure
 
 ```
 src/
-├── components/           # UI Components
-│   ├── WeatherCard.tsx   # Main weather display card
-│   ├── HourlyForecast.tsx # Hourly temperature view
-│   ├── DailyForecast.tsx  # Daily forecast view
-│   ├── TemperatureChart.tsx # Chart visualization
-│   ├── WeatherStats.tsx   # Statistics display
-│   ├── LocationSearch.tsx # Location search component
-│   └── *.css             # Component styles
-├── services/             # Business Logic
-│   └── weather.service.ts # Weather API service
-├── types/                # TypeScript Types
-│   └── weather.types.ts  # Weather data interfaces
-├── utils/                # Utility Functions
-│   └── weather.utils.ts  # Weather helpers
-├── App.tsx               # Main app component
-└── index.tsx             # Entry point
+├── components/
+│   ├── weather-card/
+│   │   ├── WeatherCard.tsx
+│   │   └── WeatherCard.module.css
+│   ├── hourly-forecast/
+│   │   ├── HourlyForecast.tsx
+│   │   └── HourlyForecast.module.css
+│   ├── humidity-forecast/       ← NEW!
+│   │   ├── HumidityForecast.tsx
+│   │   └── HumidityForecast.module.css
+│   ├── wind-forecast/           ← NEW!
+│   │   ├── WindForecast.tsx
+│   │   └── WindForecast.module.css
+│   ├── daily-forecast/
+│   │   ├── DailyForecast.tsx
+│   │   └── DailyForecast.module.css
+│   ├── temperature-chart/
+│   │   ├── TemperatureChart.tsx
+│   │   └── TemperatureChart.module.css
+│   ├── weather-stats/
+│   │   ├── WeatherStats.tsx
+│   │   └── WeatherStats.module.css
+│   ├── location-search/
+│   │   ├── LocationSearch.tsx
+│   │   └── LocationSearch.module.css
+│   └── index.ts
+├── services/
+│   └── weather.service.ts       ← API communication layer
+├── types/
+│   └── weather.types.ts         ← TypeScript interfaces
+├── utils/
+│   └── weather.utils.ts         ← Pure utility functions
+├── App.tsx
+├── App.css
+├── index.tsx
+└── index.css
 ```
 
-## Architecture & Design Patterns
+## 🎨 Architecture Principles
 
-### Separation of Concerns
+### 1. Separation of Concerns
 
-1. **Components** - Pure UI components that receive props and render
-2. **Services** - Handle all API communication and data fetching
-3. **Utils** - Pure functions for data transformation
-4. **Types** - Centralized type definitions
+- **Components** - Pure UI components with scoped CSS modules
+- **Services** - All API communication isolated
+- **Utils** - Pure functions for data transformation
+- **Types** - Centralized type definitions
 
-### Service Layer
+### 2. CSS Modules
 
-The `WeatherService` class provides two main methods:
+All components use CSS Modules to prevent style conflicts:
 
-```typescript
-// Search for locations by name
-WeatherService.searchLocations(query: string): Promise<Location[]>
+- Scoped class names (e.g., `styles.weatherCard`)
+- No global CSS pollution
+- Better maintainability
 
-// Get weather forecast for coordinates
-WeatherService.getWeatherForecast(lat: number, lon: number): Promise<WeatherData>
-```
+### 3. Kebab-Case Folder Structure
 
-### Data Flow
+- Each component in its own folder
+- Consistent naming convention
+- Easy to locate and modify
 
-1. User searches for a location
-2. `LocationSearch` component calls `WeatherService.searchLocations()`
-3. User selects a location
-4. `App.tsx` calls `WeatherService.getWeatherForecast()`
-5. Weather data flows down to all display components
+### 4. Clean Code Principles
 
-## Getting Started
+- ✅ SOLID principles
+- ✅ Single Responsibility
+- ✅ DRY (Don't Repeat Yourself)
+- ✅ Type Safety with TypeScript
+- ✅ Guard Clauses & Early Returns
+- ✅ Minimal side effects
 
-### Install Dependencies
+## 🚀 Getting Started
+
+### 1. Install Dependencies
 
 ```bash
 npm install
 ```
 
-### Development Server
+### 2. Set Up Environment Variables
+
+Create a `.env` file in the root directory:
+
+```env
+VITE_OPEN_METEO_GEOCODING_API_URL=https://geocoding-api.open-meteo.com/v1/search
+VITE_OPEN_METEO_FORECAST_API_URL=https://api.open-meteo.com/v1/forecast
+```
+
+### 3. Run Development Server
 
 ```bash
 npm run dev
 ```
 
-### Build for Production
+### 4. Build for Production
 
 ```bash
 npm run build
 ```
 
-### Preview Production Build
+### 5. Preview Production Build
 
 ```bash
 npm run preview
 ```
 
-## API Usage
+## 📦 Service Layer
 
-This app uses the **Open-Meteo Forecast API** which provides:
+The `WeatherService` class provides two main methods:
 
-- Current weather conditions
-- Hourly forecasts (up to 7 days)
-- No API key required
-- Free for non-commercial use
+```typescript
+// Search for locations by name
+static async searchLocations(query: string): Promise<Location[]>
 
-**API Endpoint:**
+// Get complete weather forecast for coordinates
+static async getWeatherForecast(
+  latitude: number,
+  longitude: number
+): Promise<WeatherData>
 ```
-https://api.open-meteo.com/v1/forecast
-```
 
-**Parameters:**
-- `latitude` & `longitude` - Location coordinates
-- `current` - Current weather variables (temperature, wind speed)
-- `hourly` - Hourly forecast variables (temperature, humidity, wind)
-
-## Components API
+## 🎯 Component APIs
 
 ### WeatherCard
+
+Shows current weather with temperature, humidity, and wind speed.
 
 ```tsx
 <WeatherCard
@@ -130,23 +181,51 @@ https://api.open-meteo.com/v1/forecast
 
 ### HourlyForecast
 
+Temperature forecast with color-coded bars.
+
 ```tsx
 <HourlyForecast
   data={weatherData}
-  hours={48}  // Optional, default: 24
+  hours={48} // Optional, default: 24
+/>
+```
+
+### HumidityForecast ✨ NEW
+
+Humidity levels over time with color coding.
+
+```tsx
+<HumidityForecast
+  data={weatherData}
+  hours={48} // Optional, default: 24
+/>
+```
+
+### WindForecast ✨ NEW
+
+Wind speed forecast with animated icons.
+
+```tsx
+<WindForecast
+  data={weatherData}
+  hours={48} // Optional, default: 24
 />
 ```
 
 ### DailyForecast
 
+Daily min/max/average temperatures.
+
 ```tsx
 <DailyForecast
   data={weatherData}
-  days={7}    // Optional, default: 7
+  days={7} // Optional, default: 7
 />
 ```
 
 ### TemperatureChart
+
+Interactive line chart visualization.
 
 ```tsx
 <TemperatureChart
@@ -157,11 +236,15 @@ https://api.open-meteo.com/v1/forecast
 
 ### WeatherStats
 
+Statistical overview of temperature data.
+
 ```tsx
 <WeatherStats data={weatherData} />
 ```
 
 ### LocationSearch
+
+Search and select locations.
 
 ```tsx
 <LocationSearch
@@ -171,14 +254,42 @@ https://api.open-meteo.com/v1/forecast
 />
 ```
 
-## Utility Functions
+## 🎨 Color Coding
+
+### Temperature Colors
+
+- 🔴 **Hot** (≥30°C): Red (#ef4444)
+- 🟠 **Warm** (≥20°C): Orange (#f59e0b)
+- 🟡 **Mild** (≥10°C): Yellow (#eab308)
+- 🔵 **Cool** (≥0°C): Blue (#3b82f6)
+- 🟣 **Cold** (<0°C): Indigo (#6366f1)
+
+### Humidity Colors
+
+- 💧 **Very High** (≥80%): Cyan (#06b6d4)
+- 💦 **High** (≥60%): Blue (#3b82f6)
+- 🌫️ **Moderate** (≥40%): Purple (#8b5cf6)
+- 🌤️ **Low** (≥20%): Pink (#ec4899)
+- ☀️ **Very Low** (<20%): Red (#ef4444)
+
+### Wind Speed Colors
+
+- 🌪️ **Strong** (≥30 km/h): Red (#ef4444)
+- 💨 **Moderate** (≥20 km/h): Orange (#f59e0b)
+- 🍃 **Light** (≥10 km/h): Yellow (#eab308)
+- 🌱 **Gentle** (≥5 km/h): Green (#10b981)
+- 😴 **Calm** (<5 km/h): Blue (#3b82f6)
+
+## 🔧 Utility Functions
 
 ### getCurrentTemperature
+
 ```typescript
 getCurrentTemperature(data: WeatherData): number
 ```
 
 ### getHourlyForecast
+
 ```typescript
 getHourlyForecast(
   times: string[],
@@ -188,6 +299,7 @@ getHourlyForecast(
 ```
 
 ### getDailyForecast
+
 ```typescript
 getDailyForecast(
   times: string[],
@@ -197,56 +309,81 @@ getDailyForecast(
 ```
 
 ### formatTime
+
 ```typescript
 formatTime(dateString: string): string
-// Example: "2025-11-21T14:00" → "2 PM"
+// "2025-11-21T14:00" → "2 PM"
 ```
 
 ### formatDate
+
 ```typescript
 formatDate(dateString: string): string
-// Example: "2025-11-21T14:00" → "Thu, Nov 21"
+// "2025-11-21T14:00" → "Thu, Nov 21"
 ```
 
 ### getTemperatureColor
+
 ```typescript
 getTemperatureColor(temp: number): string
-// Returns color hex code based on temperature
+// Returns hex color based on temperature
 ```
 
-## Color Coding
+### isWeatherData
 
-Temperature colors are dynamically assigned:
+```typescript
+isWeatherData(data: WeatherData | null): data is WeatherData
+// Type guard for null checking
+```
 
-- 🔴 **Hot** (≥30°C): Red (#ef4444)
-- 🟠 **Warm** (≥20°C): Orange (#f59e0b)
-- 🟡 **Mild** (≥10°C): Yellow (#eab308)
-- 🔵 **Cool** (≥0°C): Blue (#3b82f6)
-- 🟣 **Cold** (<0°C): Indigo (#6366f1)
+## 📊 API Usage
 
-## Clean Code Principles
+This app uses the **Open-Meteo Forecast API**:
 
-This project follows:
+**Endpoint:** `https://api.open-meteo.com/v1/forecast`
 
-- ✅ **SOLID Principles** - Single responsibility, dependency injection
-- ✅ **KISS** - Keep It Simple, Stupid
-- ✅ **DRY** - Don't Repeat Yourself
-- ✅ **Type Safety** - Full TypeScript coverage
-- ✅ **Separation of Concerns** - Clear layer boundaries
-- ✅ **Pure Functions** - Predictable utility functions
-- ✅ **Guard Clauses** - Early returns for clarity
+**Features:**
 
-## Browser Support
+- Current weather conditions
+- Hourly forecasts (up to 7 days)
+- No API key required
+- Free for non-commercial use
+
+**Parameters Used:**
+
+- `current`: temperature_2m, wind_speed_10m, relative_humidity_2m
+- `hourly`: temperature_2m, relative_humidity_2m, wind_speed_10m
+
+## 🎯 Data Flow
+
+```
+User → LocationSearch → WeatherService.searchLocations()
+                              ↓
+                      User selects location
+                              ↓
+                WeatherService.getWeatherForecast()
+                              ↓
+                        WeatherData
+                              ↓
+            Components display all available data
+```
+
+## 📱 Browser Support
 
 - Chrome/Edge (latest)
 - Firefox (latest)
 - Safari (latest)
 
-## License
+## 📝 License
 
 MIT
 
-## Credits
+## 🙏 Credits
 
 - Weather data provided by [Open-Meteo](https://open-meteo.com/)
 - Icons by [Lucide](https://lucide.dev/)
+- Built with [SolidJS](https://solidjs.com/)
+
+---
+
+**Made with ❤️ using Clean Code principles and modern web technologies**

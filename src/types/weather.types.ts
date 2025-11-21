@@ -4,12 +4,14 @@ export interface WeatherData {
     temperature_2m: number;
     time: string;
     wind_speed_10m: number;
+    relative_humidity_2m: number;
   };
   current_units: {
     interval: string;
     temperature_2m: string;
     time: string;
     wind_speed_10m: string;
+    relative_humidity_2m: string;
   };
   elevation: number;
   generationtime_ms: number;
