@@ -3,4 +3,4 @@ export { HourlyForecast } from "./HourlyForecast";
 export { DailyForecast } from "./DailyForecast";
 export { TemperatureChart } from "./TemperatureChart";
 export { WeatherStats } from "./WeatherStats";
-
+export { LocationSearch } from "./LocationSearch";

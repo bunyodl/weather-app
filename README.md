@@ -1,200 +1,252 @@
-# Weather Components Documentation
+# Weather Dashboard
 
-All components created for displaying weather data from Open-Meteo API.
+A modern, interactive weather dashboard built with SolidJS and the Open-Meteo API.
 
-## Components Overview
+## Features
 
-### 1. WeatherCard
-Main weather card displaying current temperature and location information.
+- 🔍 **Location Search** - Search for any city worldwide using geocoding
+- 🌡️ **Current Weather** - Real-time temperature and wind speed
+- 📊 **Hourly Forecast** - Visual hourly temperature forecast (up to 7 days)
+- 📅 **Daily Forecast** - Daily min/max temperatures with gradient bars
+- 📈 **Temperature Charts** - Interactive line charts using Chart.js
+- 📊 **Statistics** - Max, min, average, and temperature range
+- 🎨 **Modern UI** - Clean, responsive design with smooth animations
 
-**Props:**
-- `data: WeatherData` - Full weather data object
+## Technology Stack
 
-**Features:**
-- Shows current temperature with large display
-- Dynamic weather icon based on temperature
-- Location coordinates and timezone
-- Elevation and data point count
-- Beautiful gradient background
+- **SolidJS** - Reactive UI framework
+- **TypeScript** - Type-safe development
+- **OpenMeteo API** - Weather data provider
+- **Chart.js** - Data visualization
+- **Lucide Icons** - Beautiful icon set
+- **Vite** - Fast build tool
 
----
+## Project Structure
 
-### 2. HourlyForecast
-Displays hourly temperature forecast in a scrollable horizontal layout.
+```
+src/
+├── components/           # UI Components
+│   ├── WeatherCard.tsx   # Main weather display card
+│   ├── HourlyForecast.tsx # Hourly temperature view
+│   ├── DailyForecast.tsx  # Daily forecast view
+│   ├── TemperatureChart.tsx # Chart visualization
+│   ├── WeatherStats.tsx   # Statistics display
+│   ├── LocationSearch.tsx # Location search component
+│   └── *.css             # Component styles
+├── services/             # Business Logic
+│   └── weather.service.ts # Weather API service
+├── types/                # TypeScript Types
+│   └── weather.types.ts  # Weather data interfaces
+├── utils/                # Utility Functions
+│   └── weather.utils.ts  # Weather helpers
+├── App.tsx               # Main app component
+└── index.tsx             # Entry point
+```
 
-**Props:**
-- `data: WeatherData` - Full weather data object
-- `hours?: number` - Number of hours to display (default: 24)
+## Architecture & Design Patterns
 
-**Features:**
-- Scrollable horizontal list
-- Visual temperature bars with color coding
-- Time formatting (12-hour format)
-- Temperature color coding based on value
+### Separation of Concerns
 
----
+1. **Components** - Pure UI components that receive props and render
+2. **Services** - Handle all API communication and data fetching
+3. **Utils** - Pure functions for data transformation
+4. **Types** - Centralized type definitions
 
-### 3. DailyForecast
-Shows daily temperature forecast with min/max temperatures.
+### Service Layer
 
-**Props:**
-- `data: WeatherData` - Full weather data object
-- `days?: number` - Number of days to display (default: 7)
-
-**Features:**
-- Daily min/max/average temperatures
-- Visual temperature gradient bars
-- Date formatting (weekday, month, day)
-- Up/down arrows for high/low temps
-
----
-
-### 4. TemperatureChart
-Line chart visualization of temperature trends over time.
-
-**Props:**
-- `data: WeatherData` - Full weather data object
-- `hours?: number` - Number of hours to display (default: 48)
-
-**Features:**
-- Interactive line chart using Chart.js
-- Smooth curved lines
-- Hover tooltips
-- Responsive design
-- Custom date/time formatting on x-axis
-
----
-
-### 5. WeatherStats
-Statistical overview of temperature data.
-
-**Props:**
-- `data: WeatherData` - Full weather data object
-
-**Features:**
-- Maximum temperature
-- Minimum temperature
-- Average temperature
-- Temperature range
-- Color-coded stat cards with icons
-
----
-
-## Utilities
-
-### weather.utils.ts
-
-**Functions:**
-
-- `getCurrentTemperature(times: string[], temperatures: number[]): number`
-  - Returns current temperature based on current time
-
-- `getHourlyForecast(times: string[], temperatures: number[], hours?: number): HourlyData[]`
-  - Returns hourly forecast data for specified number of hours
-
-- `getDailyForecast(times: string[], temperatures: number[], days?: number): DailyData[]`
-  - Returns daily forecast data (aggregated from hourly) for specified days
-
-- `formatTime(dateString: string): string`
-  - Formats ISO datetime to readable time (e.g., "3 PM")
-
-- `formatDate(dateString: string): string`
-  - Formats ISO datetime to readable date (e.g., "Mon, Jan 1")
-
-- `getTemperatureColor(temp: number): string`
-  - Returns color hex code based on temperature value
-  - Hot (≥30°C): Red (#ef4444)
-  - Warm (≥20°C): Orange (#f59e0b)
-  - Mild (≥10°C): Yellow (#eab308)
-  - Cool (≥0°C): Blue (#3b82f6)
-  - Cold (<0°C): Indigo (#6366f1)
-
----
-
-## Types
-
-### weather.types.ts
-
-**Interfaces:**
+The `WeatherService` class provides two main methods:
 
 ```typescript
-interface WeatherData {
-  elevation: number;
-  generationtime_ms: number;
-  hourly: {
-    time: string[];
-    temperature_2m: number[];
-  };
-  hourly_units: {
-    time: string;
-    temperature_2m: string;
-  };
-  latitude: number;
-  longitude: number;
-  timezone: string;
-  timezone_abbreviation: string;
-  utc_offset_seconds: number;
-}
+// Search for locations by name
+WeatherService.searchLocations(query: string): Promise<Location[]>
 
-interface HourlyData {
-  time: string;
-  temperature: number;
-}
-
-interface DailyData {
-  date: string;
-  minTemp: number;
-  maxTemp: number;
-  avgTemp: number;
-}
+// Get weather forecast for coordinates
+WeatherService.getWeatherForecast(lat: number, lon: number): Promise<WeatherData>
 ```
 
----
+### Data Flow
 
-## Usage Example
+1. User searches for a location
+2. `LocationSearch` component calls `WeatherService.searchLocations()`
+3. User selects a location
+4. `App.tsx` calls `WeatherService.getWeatherForecast()`
+5. Weather data flows down to all display components
+
+## Getting Started
+
+### Install Dependencies
+
+```bash
+npm install
+```
+
+### Development Server
+
+```bash
+npm run dev
+```
+
+### Build for Production
+
+```bash
+npm run build
+```
+
+### Preview Production Build
+
+```bash
+npm run preview
+```
+
+## API Usage
+
+This app uses the **Open-Meteo Forecast API** which provides:
+
+- Current weather conditions
+- Hourly forecasts (up to 7 days)
+- No API key required
+- Free for non-commercial use
+
+**API Endpoint:**
+```
+https://api.open-meteo.com/v1/forecast
+```
+
+**Parameters:**
+- `latitude` & `longitude` - Location coordinates
+- `current` - Current weather variables (temperature, wind speed)
+- `hourly` - Hourly forecast variables (temperature, humidity, wind)
+
+## Components API
+
+### WeatherCard
 
 ```tsx
-import { WeatherData } from "./types/weather.types";
-import {
-  WeatherCard,
-  HourlyForecast,
-  DailyForecast,
-  TemperatureChart,
-  WeatherStats,
-} from "./components";
-
-function App() {
-  const [weatherData, setWeatherData] = createSignal<WeatherData | null>(null);
-
-  return (
-    <Show when={weatherData()}>
-      <WeatherCard data={weatherData()!} />
-      <HourlyForecast data={weatherData()!} hours={48} />
-      <DailyForecast data={weatherData()!} days={14} />
-      <TemperatureChart data={weatherData()!} hours={168} />
-      <WeatherStats data={weatherData()!} />
-    </Show>
-  );
-}
+<WeatherCard
+  data={weatherData}
+  locationName="Berlin, Germany"
+/>
 ```
 
----
+### HourlyForecast
 
-## Dependencies
+```tsx
+<HourlyForecast
+  data={weatherData}
+  hours={48}  // Optional, default: 24
+/>
+```
 
-- **solid-js**: ^1.9.10
-- **lucide-solid**: ^0.554.0 (icons)
-- **chart.js**: Latest (charting)
-- **solid-chartjs**: Latest (SolidJS Chart.js wrapper)
+### DailyForecast
 
----
+```tsx
+<DailyForecast
+  data={weatherData}
+  days={7}    // Optional, default: 7
+/>
+```
 
-## Styling
+### TemperatureChart
 
-Each component has its own CSS file with:
-- Modern, clean design
-- Responsive layouts
-- Smooth transitions and hover effects
-- Color-coded temperature displays
-- Mobile-friendly breakpoints
+```tsx
+<TemperatureChart
+  data={weatherData}
+  hours={168} // Optional, default: 48
+/>
+```
 
+### WeatherStats
+
+```tsx
+<WeatherStats data={weatherData} />
+```
+
+### LocationSearch
+
+```tsx
+<LocationSearch
+  onLocationSelect={(location) => {
+    // Handle location selection
+  }}
+/>
+```
+
+## Utility Functions
+
+### getCurrentTemperature
+```typescript
+getCurrentTemperature(data: WeatherData): number
+```
+
+### getHourlyForecast
+```typescript
+getHourlyForecast(
+  times: string[],
+  temperatures: number[],
+  hours?: number
+): HourlyData[]
+```
+
+### getDailyForecast
+```typescript
+getDailyForecast(
+  times: string[],
+  temperatures: number[],
+  days?: number
+): DailyData[]
+```
+
+### formatTime
+```typescript
+formatTime(dateString: string): string
+// Example: "2025-11-21T14:00" → "2 PM"
+```
+
+### formatDate
+```typescript
+formatDate(dateString: string): string
+// Example: "2025-11-21T14:00" → "Thu, Nov 21"
+```
+
+### getTemperatureColor
+```typescript
+getTemperatureColor(temp: number): string
+// Returns color hex code based on temperature
+```
+
+## Color Coding
+
+Temperature colors are dynamically assigned:
+
+- 🔴 **Hot** (≥30°C): Red (#ef4444)
+- 🟠 **Warm** (≥20°C): Orange (#f59e0b)
+- 🟡 **Mild** (≥10°C): Yellow (#eab308)
+- 🔵 **Cool** (≥0°C): Blue (#3b82f6)
+- 🟣 **Cold** (<0°C): Indigo (#6366f1)
+
+## Clean Code Principles
+
+This project follows:
+
+- ✅ **SOLID Principles** - Single responsibility, dependency injection
+- ✅ **KISS** - Keep It Simple, Stupid
+- ✅ **DRY** - Don't Repeat Yourself
+- ✅ **Type Safety** - Full TypeScript coverage
+- ✅ **Separation of Concerns** - Clear layer boundaries
+- ✅ **Pure Functions** - Predictable utility functions
+- ✅ **Guard Clauses** - Early returns for clarity
+
+## Browser Support
+
+- Chrome/Edge (latest)
+- Firefox (latest)
+- Safari (latest)
+
+## License
+
+MIT
+
+## Credits
+
+- Weather data provided by [Open-Meteo](https://open-meteo.com/)
+- Icons by [Lucide](https://lucide.dev/)

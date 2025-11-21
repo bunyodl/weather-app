@@ -1,47 +1,74 @@
-import { createEffect, createSignal, Show } from "solid-js";
+import { createSignal, Show } from "solid-js";
 import "./App.css";
-import type { WeatherData } from "./types/weather.types";
+import type { WeatherData, Location } from "./types/weather.types";
 import {
   WeatherCard,
   HourlyForecast,
   DailyForecast,
   TemperatureChart,
   WeatherStats,
+  LocationSearch,
 } from "./components";
+import { WeatherService } from "./services/weather.service";
+
+const DEFAULT_LOCATION: Location = {
+  name: "Berlin",
+  latitude: 52.52,
+  longitude: 13.41,
+  country: "Germany",
+};
 
 function App() {
   const [weatherData, setWeatherData] = createSignal<WeatherData | null>(null);
-  const [loading, setLoading] = createSignal(true);
+  const [loading, setLoading] = createSignal(false);
   const [error, setError] = createSignal<string | null>(null);
+  const [selectedLocation, setSelectedLocation] =
+    createSignal<Location>(DEFAULT_LOCATION);
 
-  createEffect(() => {
-    const fetchWeather = async () => {
-      try {
-        setLoading(true);
-        const result = await fetch(
-          "https://archive-api.open-meteo.com/v1/era5?latitude=52.52&longitude=13.41&start_date=2021-01-01&end_date=2021-12-31&hourly=temperature_2m",
-        );
-        if (!result.ok) throw new Error("Failed to fetch data");
+  const fetchWeather = async (location: Location) => {
+    try {
+      setLoading(true);
+      setError(null);
+      const data = await WeatherService.getWeatherForecast(
+        location.latitude,
+        location.longitude,
+      );
+      setWeatherData(data);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "An error occurred");
+      setWeatherData(null);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-        const data = await result.json();
-        setWeatherData(data);
-        setError(null);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : "An error occurred");
-      } finally {
-        setLoading(false);
-      }
-    };
+  const handleLocationSelect = (location: Location) => {
+    setSelectedLocation(location);
+    fetchWeather(location);
+  };
 
-    fetchWeather();
-  });
+  const loadDefaultLocation = () => {
+    fetchWeather(DEFAULT_LOCATION);
+  };
 
   return (
     <div class="app">
       <header class="app-header">
         <h1>Weather Dashboard</h1>
-        <p>Berlin, Germany - Full Year Data (2021)</p>
+        <p>Search for any location to view weather forecast</p>
       </header>
+
+      <div class="search-section">
+        <LocationSearch onLocationSelect={handleLocationSelect} />
+        <Show when={!weatherData() && !loading()}>
+          <button
+            class="default-location-btn"
+            onClick={loadDefaultLocation}
+          >
+            Or view weather for Berlin, Germany
+          </button>
+        </Show>
+      </div>
 
       <Show when={loading()}>
         <div class="loading">
@@ -59,7 +86,14 @@ function App() {
       <Show when={weatherData() && !loading()}>
         <div class="weather-container">
           <div class="main-section">
-            <WeatherCard data={weatherData()!} />
+            <WeatherCard
+              data={weatherData()!}
+              locationName={`${selectedLocation().name}${
+                selectedLocation().admin1
+                  ? `, ${selectedLocation().admin1}`
+                  : ""
+              }, ${selectedLocation().country}`}
+            />
             <WeatherStats data={weatherData()!} />
           </div>
 
@@ -70,7 +104,7 @@ function App() {
             />
             <DailyForecast
               data={weatherData()}
-              days={14}
+              days={7}
             />
           </div>
 

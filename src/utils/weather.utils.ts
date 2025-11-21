@@ -4,16 +4,8 @@ import type {
   WeatherData,
 } from "../types/weather.types";
 
-export const getCurrentTemperature = (
-  times: string[],
-  temperatures: number[],
-): number => {
-  const now = new Date();
-  const currentIndex = times.findIndex((time) => {
-    const date = new Date(time);
-    return date > now;
-  });
-  return temperatures[currentIndex - 1] || temperatures[0];
+export const getCurrentTemperature = (data: WeatherData): number => {
+  return data.current.temperature_2m;
 };
 
 export const getHourlyForecast = (
@@ -52,7 +44,13 @@ export const getDailyForecast = (
   const endIndex = Math.min(startIndex + days * 24, times.length);
 
   for (let i = startIndex; i < endIndex; i += 24) {
-    const dayTemps = temperatures.slice(i, i + 24);
+    const dayTemps = temperatures.slice(
+      i,
+      Math.min(i + 24, temperatures.length),
+    );
+
+    if (dayTemps.length === 0) continue;
+
     const date = times[i];
 
     dailyData.push({

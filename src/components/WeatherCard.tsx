@@ -6,6 +6,7 @@ import "./WeatherCard.css";
 
 interface WeatherCardProps {
   data: WeatherData;
+  locationName?: string;
 }
 
 const getWeatherIcon = (temp: number) => {
@@ -16,11 +17,7 @@ const getWeatherIcon = (temp: number) => {
 };
 
 export const WeatherCard: Component<WeatherCardProps> = (props) => {
-  const currentTemp = () =>
-    getCurrentTemperature(
-      props.data.hourly.time,
-      props.data.hourly.temperature_2m,
-    );
+  const currentTemp = () => getCurrentTemperature(props.data);
 
   const WeatherIcon = () => {
     const Icon = getWeatherIcon(currentTemp());
@@ -32,6 +29,9 @@ export const WeatherCard: Component<WeatherCardProps> = (props) => {
       <div class="weather-card-header">
         <div class="location-info">
           <h2>Current Weather</h2>
+          {props.locationName && (
+            <p class="location-name">{props.locationName}</p>
+          )}
           <p class="location">
             {props.data.latitude.toFixed(2)}°, {props.data.longitude.toFixed(2)}
             °
@@ -46,7 +46,7 @@ export const WeatherCard: Component<WeatherCardProps> = (props) => {
         </div>
         <div class="temperature-display">
           <span class="temperature">{currentTemp().toFixed(1)}</span>
-          <span class="unit">{props.data.hourly_units.temperature_2m}</span>
+          <span class="unit">{props.data.current_units.temperature_2m}</span>
         </div>
       </div>
 
@@ -54,15 +54,18 @@ export const WeatherCard: Component<WeatherCardProps> = (props) => {
         <div class="weather-stat">
           <Wind size={20} />
           <div>
-            <p class="stat-label">Elevation</p>
-            <p class="stat-value">{props.data.elevation}m</p>
+            <p class="stat-label">Wind Speed</p>
+            <p class="stat-value">
+              {props.data.current.wind_speed_10m.toFixed(1)}{" "}
+              {props.data.current_units.wind_speed_10m}
+            </p>
           </div>
         </div>
         <div class="weather-stat">
           <Cloud size={20} />
           <div>
-            <p class="stat-label">Data Points</p>
-            <p class="stat-value">{props.data.hourly.time.length}</p>
+            <p class="stat-label">Elevation</p>
+            <p class="stat-value">{props.data.elevation}m</p>
           </div>
         </div>
       </div>

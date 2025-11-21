@@ -18,6 +18,13 @@
   font-weight: 600;
 }
 
+.location-name {
+  margin: 0.25rem 0;
+  font-size: 1.1rem;
+  font-weight: 500;
+  opacity: 0.95;
+}
+
 .location {
   margin: 0.25rem 0;
   font-size: 0.9rem;
@@ -84,4 +91,3 @@
   font-size: 1rem;
   font-weight: 600;
 }
-
