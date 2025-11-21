@@ -5,6 +5,7 @@ import { SearchSection, StatusBar, WeatherDisplay } from "./components";
 import { useWeatherData } from "./hooks/useWeatherData";
 import { useAutoRefresh } from "./hooks/useAutoRefresh";
 import { useGeolocation } from "./hooks/useGeolocation";
+import { WeatherService } from "./services/weather.service";
 
 const REFRESH_INTERVAL_MS = 3 * 60 * 1000; // 3 minutes
 
@@ -32,7 +33,12 @@ function App() {
   createEffect(async () => {
     const coords = coordinates();
     if (coords) {
-      const userLocation: Location = {
+      const locationData = await WeatherService.reverseGeocode(
+        coords.latitude,
+        coords.longitude,
+      );
+
+      const userLocation: Location = locationData || {
         name: "Your Location",
         latitude: coords.latitude,
         longitude: coords.longitude,

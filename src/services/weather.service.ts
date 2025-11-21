@@ -7,6 +7,9 @@ import type {
 
 const GEOCODING_API = import.meta.env.VITE_OPEN_METEO_GEOCODING_API_URL;
 const FORECAST_API = import.meta.env.VITE_OPEN_METEO_FORECAST_API_URL;
+const BIGDATACLOUD_API =
+  "https://api.bigdatacloud.net/data/reverse-geocode-client";
+const IP_API = "http://ip-api.com/json/";
 
 export class WeatherService {
   static async searchLocations(query: string): Promise<Location[]> {
@@ -41,6 +44,134 @@ export class WeatherService {
     } catch (error) {
       console.error("Error searching locations:", error);
       return [];
+    }
+  }
+
+  static async reverseGeocode(
+    latitude: number,
+    longitude: number,
+  ): Promise<Location | null> {
+    const location = await this.reverseGeocodeOpenMeteo(latitude, longitude);
+    if (location) return location;
+
+    console.warn("Open-Meteo geocoding failed, trying IP-based location...");
+    const ipLocation = await this.getLocationFromIP();
+    if (ipLocation) return ipLocation;
+
+    console.warn("IP-based location failed, trying BigDataCloud...");
+    const bigDataLocation = await this.reverseGeocodeBigDataCloud(
+      latitude,
+      longitude,
+    );
+    if (bigDataLocation) return bigDataLocation;
+
+    console.warn("All reverse geocoding attempts failed");
+    return null;
+  }
+
+  private static async reverseGeocodeOpenMeteo(
+    latitude: number,
+    longitude: number,
+  ): Promise<Location | null> {
+    try {
+      const response = await fetch(
+        `${GEOCODING_API}?latitude=${latitude}&longitude=${longitude}&count=1&language=en&format=json`,
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to reverse geocode");
+      }
+
+      const data: GeocodingResult = await response.json();
+
+      if (!data.results || data.results.length === 0) {
+        return null;
+      }
+
+      const result = data.results[0];
+
+      if (!result.name && !result.country) {
+        return null;
+      }
+
+      return {
+        name: result.name || result.admin1 || result.country || "Your Location",
+        latitude: result.latitude,
+        longitude: result.longitude,
+        country: result.country,
+        admin1: result.admin1,
+      };
+    } catch (error) {
+      console.error("Error with Open-Meteo reverse geocoding:", error);
+      return null;
+    }
+  }
+
+  private static async reverseGeocodeBigDataCloud(
+    latitude: number,
+    longitude: number,
+  ): Promise<Location | null> {
+    try {
+      const response = await fetch(
+        `${BIGDATACLOUD_API}?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`,
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to reverse geocode with BigDataCloud");
+      }
+
+      const data = await response.json();
+
+      if (!data.locality && !data.city && !data.countryName) {
+        return null;
+      }
+
+      const name =
+        data.city ||
+        data.locality ||
+        data.principalSubdivision ||
+        data.countryName ||
+        "Your Location";
+
+      return {
+        name,
+        latitude,
+        longitude,
+        country: data.countryName,
+        admin1: data.principalSubdivision,
+      };
+    } catch (error) {
+      console.error("Error with BigDataCloud reverse geocoding:", error);
+      return null;
+    }
+  }
+
+  static async getLocationFromIP(): Promise<Location | null> {
+    try {
+      const response = await fetch(
+        `${IP_API}?fields=status,city,country,lat,lon,regionName`,
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to get location from IP");
+      }
+
+      const data = await response.json();
+
+      if (data.status !== "success") {
+        return null;
+      }
+
+      return {
+        name: data.city || data.regionName || data.country || "Your Location",
+        latitude: data.lat,
+        longitude: data.lon,
+        country: data.country,
+        admin1: data.regionName,
+      };
+    } catch (error) {
+      console.error("Error getting location from IP:", error);
+      return null;
     }
   }
 
