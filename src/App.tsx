@@ -91,7 +91,11 @@ function App() {
     return !loading() && !weatherData() && perm === "prompt";
   };
 
-  const showSuggestions = () => {
+  const showCollapsibleBrowse = () => {
+    return !loading() && !!weatherData();
+  };
+
+  const showSuggestionsDirectly = () => {
     const perm = permission();
     return (
       !loading() &&
@@ -111,7 +115,8 @@ function App() {
         onLocationSelect={handleLocationSelect}
         onRequestLocation={requestLocation}
         showLocationPermission={showLocationPermission()}
-        showSuggestions={showSuggestions()}
+        showCollapsibleBrowse={showCollapsibleBrowse()}
+        showSuggestionsDirectly={showSuggestionsDirectly()}
         timezone={timezone()}
         timezoneAbbr={timezoneAbbr()}
         hasLocationPermission={hasLocationPermission()}
