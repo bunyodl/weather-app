@@ -1,17 +1,9 @@
 import { createSignal, Show } from "solid-js";
 import "./App.css";
-import type { WeatherData, Location } from "./types/weather.types";
-import {
-  WeatherCard,
-  HourlyForecast,
-  DailyForecast,
-  TemperatureChart,
-  WeatherStats,
-  LocationSearch,
-  HumidityForecast,
-  WindForecast,
-} from "./components";
-import { WeatherService } from "./services/weather.service";
+import type { Location } from "./types/weather.types";
+import { SearchSection, StatusBar, WeatherDisplay } from "./components";
+import { useWeatherData } from "./hooks/useWeatherData";
+import { useAutoRefresh } from "./hooks/useAutoRefresh";
 
 const DEFAULT_LOCATION: Location = {
   name: "Berlin",
@@ -20,38 +12,35 @@ const DEFAULT_LOCATION: Location = {
   country: "Germany",
 };
 
+const REFRESH_INTERVAL_MS = 3 * 60 * 1000;
+
 function App() {
-  const [weatherData, setWeatherData] = createSignal<WeatherData | null>(null);
-  const [loading, setLoading] = createSignal(false);
-  const [error, setError] = createSignal<string | null>(null);
   const [selectedLocation, setSelectedLocation] =
     createSignal<Location>(DEFAULT_LOCATION);
 
-  const fetchWeather = async (location: Location) => {
-    try {
-      setLoading(true);
-      setError(null);
-      const data = await WeatherService.getWeatherForecast(
-        location.latitude,
-        location.longitude,
-      );
-      setWeatherData(data);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "An error occurred");
-      setWeatherData(null);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const {
+    weatherData,
+    loading,
+    error,
+    isRefreshing,
+    lastUpdated,
+    fetchWeather,
+  } = useWeatherData();
 
   const handleLocationSelect = (location: Location) => {
     setSelectedLocation(location);
     fetchWeather(location);
   };
 
-  const loadDefaultLocation = () => {
-    fetchWeather(DEFAULT_LOCATION);
+  const handleManualRefresh = () => {
+    fetchWeather(selectedLocation(), true);
   };
+
+  useAutoRefresh({
+    interval: REFRESH_INTERVAL_MS,
+    onRefresh: () => fetchWeather(selectedLocation(), true),
+    enabled: () => !!weatherData(),
+  });
 
   return (
     <div class="app">
@@ -60,17 +49,11 @@ function App() {
         <p>Search for any location to view comprehensive weather data</p>
       </header>
 
-      <div class="search-section">
-        <LocationSearch onLocationSelect={handleLocationSelect} />
-        <Show when={!weatherData() && !loading()}>
-          <button
-            class="default-location-btn"
-            onClick={loadDefaultLocation}
-          >
-            Or view weather for Berlin, Germany
-          </button>
-        </Show>
-      </div>
+      <SearchSection
+        onLocationSelect={handleLocationSelect}
+        onLoadDefault={() => fetchWeather(DEFAULT_LOCATION)}
+        showDefaultButton={!weatherData() && !loading()}
+      />
 
       <Show when={loading()}>
         <div class="loading">
@@ -87,46 +70,15 @@ function App() {
 
       <Show when={weatherData() && !loading()}>
         <div class="weather-container">
-          <div class="main-section">
-            <WeatherCard
-              data={weatherData()!}
-              locationName={`${selectedLocation().name}${
-                selectedLocation().admin1
-                  ? `, ${selectedLocation().admin1}`
-                  : ""
-              }, ${selectedLocation().country}`}
-            />
-            <WeatherStats data={weatherData()!} />
-          </div>
-
-          <div class="forecast-section">
-            <HourlyForecast
-              data={weatherData()}
-              hours={48}
-            />
-            <HumidityForecast
-              data={weatherData()}
-              hours={48}
-            />
-            <WindForecast
-              data={weatherData()}
-              hours={48}
-            />
-          </div>
-
-          <div class="forecast-section">
-            <DailyForecast
-              data={weatherData()}
-              days={7}
-            />
-          </div>
-
-          <div class="chart-section">
-            <TemperatureChart
-              data={weatherData()}
-              hours={168}
-            />
-          </div>
+          <StatusBar
+            lastUpdated={lastUpdated}
+            isRefreshing={isRefreshing()}
+            onRefresh={handleManualRefresh}
+          />
+          <WeatherDisplay
+            data={weatherData()!}
+            location={selectedLocation()}
+          />
         </div>
       </Show>
     </div>

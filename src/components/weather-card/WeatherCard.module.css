@@ -4,8 +4,8 @@
   padding: 2rem;
   color: white;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-  max-width: 400px;
   width: 100%;
+  transition: all 0.3s ease;
 }
 
 .weatherCardHeader {
@@ -58,6 +58,7 @@
   font-size: 4rem;
   font-weight: 700;
   line-height: 1;
+  transition: transform 0.5s ease, opacity 0.3s ease;
 }
 
 .unit {
@@ -90,5 +91,5 @@
   margin: 0.25rem 0 0 0;
   font-size: 1rem;
   font-weight: 600;
+  transition: all 0.3s ease;
 }
-

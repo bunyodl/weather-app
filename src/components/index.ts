@@ -6,3 +6,6 @@ export { WeatherStats } from "./weather-stats/WeatherStats";
 export { LocationSearch } from "./location-search/LocationSearch";
 export { HumidityForecast } from "./humidity-forecast/HumidityForecast";
 export { WindForecast } from "./wind-forecast/WindForecast";
+export { StatusBar } from "./status-bar/StatusBar";
+export { WeatherDisplay } from "./weather-display/WeatherDisplay";
+export { SearchSection } from "./search-section/SearchSection";

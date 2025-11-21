@@ -4,6 +4,7 @@
   padding: 1.5rem;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   width: 100%;
+  transition: opacity 0.3s ease;
 }
 
 .forecastTitle {
@@ -46,6 +47,7 @@
   align-items: center;
   gap: 0.5rem;
   min-width: 60px;
+  transition: transform 0.3s ease;
 }
 
 .hourTime {
@@ -65,5 +67,6 @@
   margin: 0;
   font-size: 0.875rem;
   font-weight: 600;
+  transition: color 0.3s ease, transform 0.3s ease;
 }
 

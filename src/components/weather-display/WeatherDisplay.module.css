@@ -1,0 +1,33 @@
+.weatherContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.mainSection {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  transition: opacity 0.3s ease;
+}
+
+.forecastSection {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  transition: opacity 0.3s ease;
+}
+
+.chartSection {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  transition: opacity 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .mainSection {
+    grid-template-columns: 1fr;
+  }
+}
+
