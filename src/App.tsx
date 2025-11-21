@@ -12,7 +12,7 @@ const DEFAULT_LOCATION: Location = {
   country: "Germany",
 };
 
-const REFRESH_INTERVAL_MS = 3 * 60 * 1000;
+const REFRESH_INTERVAL_MS = 3 * 60 * 1000; // 3 minutes
 
 function App() {
   const [selectedLocation, setSelectedLocation] =
