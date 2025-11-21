@@ -1,22 +1,17 @@
-import { createSignal, Show } from "solid-js";
+import { createSignal, createEffect, Show } from "solid-js";
 import "./App.css";
 import type { Location } from "./types/weather.types";
 import { SearchSection, StatusBar, WeatherDisplay } from "./components";
 import { useWeatherData } from "./hooks/useWeatherData";
 import { useAutoRefresh } from "./hooks/useAutoRefresh";
-
-const DEFAULT_LOCATION: Location = {
-  name: "Berlin",
-  latitude: 52.52,
-  longitude: 13.41,
-  country: "Germany",
-};
+import { useGeolocation } from "./hooks/useGeolocation";
 
 const REFRESH_INTERVAL_MS = 3 * 60 * 1000; // 3 minutes
 
 function App() {
-  const [selectedLocation, setSelectedLocation] =
-    createSignal<Location>(DEFAULT_LOCATION);
+  const [selectedLocation, setSelectedLocation] = createSignal<Location | null>(
+    null,
+  );
 
   const {
     weatherData,
@@ -27,20 +22,64 @@ function App() {
     fetchWeather,
   } = useWeatherData();
 
+  const {
+    coordinates,
+    permission,
+    error: geoError,
+    requestLocation,
+  } = useGeolocation();
+
+  createEffect(async () => {
+    const coords = coordinates();
+    if (coords) {
+      const userLocation: Location = {
+        name: "Your Location",
+        latitude: coords.latitude,
+        longitude: coords.longitude,
+        country: "",
+      };
+
+      setSelectedLocation(userLocation);
+      fetchWeather(userLocation);
+    }
+  });
+
   const handleLocationSelect = (location: Location) => {
     setSelectedLocation(location);
     fetchWeather(location);
   };
 
   const handleManualRefresh = () => {
-    fetchWeather(selectedLocation(), true);
+    const location = selectedLocation();
+    if (location) {
+      fetchWeather(location, true);
+    }
   };
 
   useAutoRefresh({
     interval: REFRESH_INTERVAL_MS,
-    onRefresh: () => fetchWeather(selectedLocation(), true),
+    onRefresh: () => {
+      const location = selectedLocation();
+      if (location) {
+        fetchWeather(location, true);
+      }
+    },
     enabled: () => !!weatherData(),
   });
+
+  const showLocationPermission = () => {
+    const perm = permission();
+    return !loading() && !weatherData() && perm === "prompt";
+  };
+
+  const showSuggestions = () => {
+    const perm = permission();
+    return (
+      !loading() &&
+      !weatherData() &&
+      (perm === "denied" || perm === "unsupported")
+    );
+  };
 
   return (
     <div class="app">
@@ -51,8 +90,9 @@ function App() {
 
       <SearchSection
         onLocationSelect={handleLocationSelect}
-        onLoadDefault={() => fetchWeather(DEFAULT_LOCATION)}
-        showDefaultButton={!weatherData() && !loading()}
+        onRequestLocation={requestLocation}
+        showLocationPermission={showLocationPermission()}
+        showSuggestions={showSuggestions()}
       />
 
       <Show when={loading()}>
@@ -62,9 +102,9 @@ function App() {
         </div>
       </Show>
 
-      <Show when={error()}>
+      <Show when={error() || geoError()}>
         <div class="error">
-          <p>Error: {error()}</p>
+          <p>Error: {error() || geoError()}</p>
         </div>
       </Show>
 
@@ -77,7 +117,7 @@ function App() {
           />
           <WeatherDisplay
             data={weatherData()!}
-            location={selectedLocation()}
+            location={selectedLocation()!}
           />
         </div>
       </Show>

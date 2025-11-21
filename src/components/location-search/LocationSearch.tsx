@@ -50,7 +50,10 @@ export const LocationSearch: Component<LocationSearchProps> = (props) => {
   return (
     <div class={styles.locationSearch}>
       <div class={styles.searchInputContainer}>
-        <Search size={20} class={styles.searchIcon} />
+        <Search
+          size={20}
+          class={styles.searchIcon}
+        />
         <input
           type="text"
           class={styles.searchInput}
@@ -60,6 +63,7 @@ export const LocationSearch: Component<LocationSearchProps> = (props) => {
           onFocus={() => {
             if (locations().length > 0) setShowResults(true);
           }}
+          inputMode="search"
         />
         <Show when={isSearching()}>
           <div class={styles.searchSpinner} />
@@ -74,7 +78,10 @@ export const LocationSearch: Component<LocationSearchProps> = (props) => {
                 class={styles.searchResultItem}
                 onClick={() => handleLocationSelect(location)}
               >
-                <MapPin size={16} class={styles.locationIcon} />
+                <MapPin
+                  size={16}
+                  class={styles.locationIcon}
+                />
                 <div class={styles.locationInfo}>
                   <p class={styles.locationName}>{location.name}</p>
                   <p class={styles.locationDetails}>
@@ -103,4 +110,3 @@ export const LocationSearch: Component<LocationSearchProps> = (props) => {
     </div>
   );
 };
-

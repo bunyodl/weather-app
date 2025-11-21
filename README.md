@@ -4,6 +4,10 @@ A comprehensive, modern weather dashboard built with SolidJS and the Open-Meteo 
 
 ## ✨ Features
 
+- 📍 **Geolocation Support** - Automatically detect and show weather for your current location
+- 🌐 **Smart Location Detection** - Auto-loads on every visit if permission granted
+- 🏙️ **Popular Location Suggestions** - Quick access to 10 major cities worldwide
+- ⚡ **Zero UI Flash** - Smart loading states prevent content jumping
 - 🔍 **Location Search** - Search for any city worldwide using geocoding
 - 🌡️ **Current Weather** - Real-time temperature, humidity, and wind speed
 - 📊 **Hourly Temperature Forecast** - Visual hourly temperature forecast (up to 7 days)
@@ -12,8 +16,8 @@ A comprehensive, modern weather dashboard built with SolidJS and the Open-Meteo 
 - 📅 **Daily Forecast** - Daily min/max temperatures with gradient bars
 - 📈 **Temperature Charts** - Interactive line charts using Chart.js
 - 📊 **Statistics** - Max, min, average, and temperature range
-- 🔄 **Live Updates** - Auto-refresh every minute with smooth transitions
-- ⏱️ **Last Updated** - Timestamp showing when data was last refreshed
+- 🔄 **Live Updates** - Auto-refresh every 3 minutes with smooth transitions
+- ⏱️ **Last Updated** - Live timestamp that updates every second
 - 🔁 **Manual Refresh** - On-demand weather data updates
 - 👁️ **Smart Pausing** - Pauses updates when tab is inactive to save resources
 - 🎨 **Modern UI** - Clean, responsive design with CSS Modules
@@ -127,34 +131,105 @@ src/
 │   ├── location-search/
 │   │   ├── LocationSearch.tsx
 │   │   └── LocationSearch.module.css
-│   ├── status-bar/              ← NEW!
+│   ├── search-section/
+│   │   ├── SearchSection.tsx
+│   │   └── SearchSection.module.css
+│   ├── status-bar/
 │   │   ├── StatusBar.tsx
 │   │   └── StatusBar.module.css
-│   ├── weather-display/         ← NEW!
+│   ├── weather-display/
 │   │   ├── WeatherDisplay.tsx
 │   │   └── WeatherDisplay.module.css
+│   ├── location-permission/     ← NEW!
+│   │   ├── LocationPermission.tsx
+│   │   └── LocationPermission.module.css
+│   ├── location-suggestions/    ← NEW!
+│   │   ├── LocationSuggestions.tsx
+│   │   └── LocationSuggestions.module.css
 │   └── index.ts
-├── hooks/                       ← NEW!
-│   └── useAutoRefresh.ts        ← Custom hook for live updates
+├── hooks/
+│   ├── useAutoRefresh.ts        ← Auto-refresh timer
+│   ├── useWeatherData.ts        ← Data fetching logic
+│   ├── useRelativeTime.ts       ← Live timestamp updates
+│   └── useGeolocation.ts        ← NEW! Browser geolocation
 ├── services/
 │   └── weather.service.ts       ← API communication layer
 ├── types/
 │   └── weather.types.ts         ← TypeScript interfaces
 ├── utils/
 │   ├── weather.utils.ts         ← Weather utility functions
-│   └── date.utils.ts            ← NEW! Date formatting utilities
-├── App.tsx                      ← Simplified main component
+│   └── date.utils.ts            ← Date formatting utilities
+├── App.tsx                      ← Main app orchestration (119 lines)
 ├── App.css
 ├── index.tsx
 └── index.css
 ```
+
+## 📍 Geolocation Features
+
+The dashboard includes **intelligent geolocation support** with privacy-first design:
+
+### Smart Location Detection
+
+**On First Visit:**
+
+- Automatically checks browser location permission status
+- Shows appropriate UI based on permission state
+
+**Permission States:**
+
+1. **📍 Prompt (Default)** - Shows beautiful permission request card
+
+   - Friendly UI encouraging location sharing
+   - Click "Share My Location" to enable
+
+2. **✅ Granted** - Automatically loads weather for your location
+
+   - Checks permission on every page load
+   - Auto-fetches location without user interaction
+   - Displays as "Your Location"
+   - Instant weather data on page load
+   - Works seamlessly on all future visits
+
+3. **❌ Denied** - Shows popular location suggestions
+
+   - 10 major cities worldwide
+   - Clean grid layout with hover effects
+   - Respects user privacy choice
+
+4. **🚫 Unsupported** - Falls back to location suggestions
+   - For browsers without Geolocation API support
+
+### Popular Locations
+
+Quick-access to 10 major cities worldwide:
+
+- 🗽 **New York, USA**
+- 🏛️ **London, UK**
+- 🗼 **Tokyo, Japan**
+- 🗼 **Paris, France**
+- 🌊 **Sydney, Australia**
+- 🏙️ **Dubai, UAE**
+- 🇸🇬 **Singapore, Singapore**
+- 🍁 **Toronto, Canada**
+- 🇩🇪 **Berlin, Germany**
+- 🇮🇳 **Mumbai, India**
+
+### Privacy & UX
+
+- ✅ Auto-loads location on every visit if permission granted
+- ✅ Never forces location access
+- ✅ Respects browser permission settings
+- ✅ Shows clear prompts and alternatives
+- ✅ No UI flashing - "checking" state prevents content jumps
+- ✅ Works perfectly without location access
 
 ## 🎨 Architecture Principles
 
 ### 1. Separation of Concerns
 
 - **Components** - Pure UI components with scoped CSS modules
-- **Hooks** - Custom reusable logic (e.g., auto-refresh)
+- **Hooks** - Custom reusable logic (geolocation, auto-refresh, data fetching)
 - **Services** - All API communication isolated
 - **Utils** - Pure functions for data transformation
 - **Types** - Centralized type definitions
@@ -163,14 +238,18 @@ src/
 
 The app uses a **modular component architecture**:
 
-- `App.tsx` - Orchestrates data fetching and state management (130 lines)
+- `App.tsx` - Orchestrates data fetching and state management (119 lines)
+- `SearchSection` - Composes search, permissions, and suggestions
 - `StatusBar` - Displays update status and refresh controls
 - `WeatherDisplay` - Composes all weather data components
 - Individual forecast components - Focused, single-responsibility UI
 
 ### 3. Custom Hooks
 
-- `useAutoRefresh` - Encapsulates auto-refresh logic with tab visibility detection
+- `useGeolocation` - Browser geolocation with permission handling
+- `useWeatherData` - Encapsulates all data fetching logic
+- `useAutoRefresh` - Auto-refresh with tab visibility detection
+- `useRelativeTime` - Live timestamp that updates every second
 - Reusable, testable, and easily configurable
 
 ### 4. CSS Modules
