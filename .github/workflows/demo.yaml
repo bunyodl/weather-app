@@ -10,91 +10,63 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Print the context object
-        run: |
-          echo "🔍 CONTEXT OBJECT:
-          ${{ toJson(github) }}"
-
-      - name: Print the event
+      - name: Print basic trigger info
         run: |
           echo "🎉 Triggered by: ${{ github.event_name }}"
-          echo "🔍 Event Details:
-          ${{ toJson(github.event) }}"
+          echo "Actor: ${{ github.actor }}"
+          echo "Actor ID: ${{ github.actor_id }}"
+          echo "Triggering Actor: ${{ github.triggering_actor }}"
 
-      - name: Print FULL CONTEXT
+      - name: Print ref & repo info
         run: |
-          echo "🧠 FULL CONTEXT:
-        Actor: ${{ github.actor }}"
-        Actor ID: ${{ github.actor_id }}
-        Triggering User: ${{ github.triggering_actor }}
-        Event Name: ${{ github.event_name }}
-        Event Path: ${{ github.event_path }}
-        Event Ref: ${{ github.event.ref }}
-        Event Repo: ${{ github.event.repository.full_name }}
-        Event Sender: ${{ github.event.sender.login }}
+          echo "Ref: ${{ github.ref }}"
+          echo "Ref Name: ${{ github.ref_name }}"
+          echo "Ref Type: ${{ github.ref_type }}"
+          echo "Is Protected: ${{ github.ref_protected }}"
+          echo "Repository: ${{ github.repository }}"
+          echo "Repository Owner: ${{ github.repository_owner }}"
+          echo "Repository Owner ID: ${{ github.repository_owner_id }}"
+          echo "SHA: ${{ github.sha }}"
+          echo "Head Ref: ${{ github.head_ref }}"
+          echo "Base Ref: ${{ github.base_ref }}"
 
-        🏷️ REF INFO:
-        Full Ref: ${{ github.ref }}
-        Ref Name: ${{ github.ref_name }}
-        Ref Protected: ${{ github.ref_protected }}
-        Ref Type: ${{ github.ref_type }}
-
-        📦 REPOSITORY INFO:
-        Repository: ${{ github.repository }}
-        Repo Owner: ${{ github.repository_owner }}
-        Owner ID: ${{ github.repository_owner_id }}
-        Repo URL: ${{ github.server_url }}/${{ github.repository }}
-        Workspace: ${{ github.workspace }}
-        Sha: ${{ github.sha }}
-        Head Ref: ${{ github.head_ref }}
-        Base Ref: ${{ github.base_ref }}
-
-        🏗️ RUNNER INFO:
-        Runner OS: ${{ runner.os }}
-        Runner Arch: ${{ runner.arch }}
-        Runner Name: ${{ runner.name }}
-        Runner Temp: ${{ runner.temp }}
-        Runner Tool Cache: ${{ runner.tool_cache }}
-
-        🚀 JOB INFO:
-        # The following fields are not valid in GitHub Actions context and have been removed
-        Job Status: ${{ job.status }}
-        Job Container: ${{ job.container }}
-        Job Services: ${{ job.services }}
-
-        # The following SERVER INFO fields are not valid and have been removed
-        🌐 SERVER INFO:
-        Server URL: ${{ github.server_url }}
-        GraphQL URL: ${{ github.graphql_url }}
-        API URL: ${{ github.api_url }}"
-
-      - name: Print COMMIT INFO
+      - name: Print commit info
         run: |
-          echo "🔎 COMMIT INFO:
-          Message:               ${{ github.event.head_commit.message }}"
-        Author Name: ${{ github.event.head_commit.author.name }}
-        Author Email: ${{ github.event.head_commit.author.email }}
-        Added Files: ${{ github.event.head_commit.added }}
-        Removed Files: ${{ github.event.head_commit.removed }}
-        Modified Files: ${{ github.event.head_commit.modified }}
-        Commit Timestamp: ${{ github.event.head_commit.timestamp }}
-        Commit ID: ${{ github.event.head_commit.id }}
-        Commit URL: ${{ github.event.head_commit.url }}
-        Tree ID: ${{ github.event.head_commit.tree_id }}
-        Commmitter Name: ${{ github.event.head_commit.committer.name }}
-        Distinct?: ${{ github.event.head_commit.distinct }}
-          "
+          echo "Commit Message: ${{ github.event.head_commit.message }}"
+          echo "Author Name: ${{ github.event.head_commit.author.name }}"
+          echo "Author Email: ${{ github.event.head_commit.author.email }}"
+          echo "Added: ${{ github.event.head_commit.added }}"
+          echo "Removed: ${{ github.event.head_commit.removed }}"
+          echo "Modified: ${{ github.event.head_commit.modified }}"
+          echo "Commit ID: ${{ github.event.head_commit.id }}"
+          echo "Commit URL: ${{ github.event.head_commit.url }}"
+          echo "Tree ID: ${{ github.event.head_commit.tree_id }}"
+          echo "Commit Timestamp: ${{ github.event.head_commit.timestamp }}"
+          echo "Commit Distinct: ${{ github.event.head_commit.distinct }}"
 
-      - name: Check out code
+      - name: Print event & server info
+        run: |
+          echo "Event Path: ${{ github.event_path }}"
+          echo "Server URL: ${{ github.server_url }}"
+          echo "API URL: ${{ github.api_url }}"
+          echo "GraphQL URL: ${{ github.graphql_url }}"
+
+      - name: Print runner info
+        run: |
+          echo "Runner OS: ${{ runner.os }}"
+          echo "Runner Name: ${{ runner.name }}"
+          echo "Runner Arch: ${{ runner.arch }}"
+          echo "Runner Temp: ${{ runner.temp }}"
+          echo "Runner Tool Cache: ${{ runner.tool_cache }}"
+
+      - name: Checkout code
         uses: actions/checkout@v5
-
-      - name: Print Cloned repository
-        run: |
-          echo "Cloned repository: ${{ github.repository }}"
 
       - name: List files
         run: ls -la ${{ github.workspace }}
 
-      - name: Print job final status
+      - name: Print job status
         run: |
-          echo "🍏 Job final status: ${{ job.status }}"
+          echo "🍏 Job Status: ${{ job.status }}"
+          echo "🍏 Job Container: ${{ job.container }}"
+          echo "🍏 Job Services: ${{ job.services }}"
