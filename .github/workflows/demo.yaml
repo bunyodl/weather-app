@@ -6,7 +6,7 @@ on:
     branches: [main]
 
 jobs:
-  Explore Github Actions:
+  Explore-Github-Actions:
     runs-on: ubuntu-latest
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
@@ -19,7 +19,7 @@ jobs:
       - run: echo "🖥️ The workflow is now ready to test your code on the runner."
 
       - name: List files in the repository
-      - run: |
+        run: |
           ls |
           -la ${{ github.workspace }}
       - run: echo "🍏 This job's status is ${{ job.status }}."
