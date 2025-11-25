@@ -10,63 +10,63 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Print basic trigger info
+      - name: Print github context info
         run: |
-          echo "🎉 Triggered by: ${{ github.event_name }}"
-          echo "Actor: ${{ github.actor }}"
-          echo "Actor ID: ${{ github.actor_id }}"
-          echo "Triggering Actor: ${{ github.triggering_actor }}"
+          echo "🔍 GITHUB CONTEXT:
+          ${{ toJson(github) }}"
 
-      - name: Print ref & repo info
+      - name: Print env context info
         run: |
-          echo "Ref: ${{ github.ref }}"
-          echo "Ref Name: ${{ github.ref_name }}"
-          echo "Ref Type: ${{ github.ref_type }}"
-          echo "Is Protected: ${{ github.ref_protected }}"
-          echo "Repository: ${{ github.repository }}"
-          echo "Repository Owner: ${{ github.repository_owner }}"
-          echo "Repository Owner ID: ${{ github.repository_owner_id }}"
-          echo "SHA: ${{ github.sha }}"
-          echo "Head Ref: ${{ github.head_ref }}"
-          echo "Base Ref: ${{ github.base_ref }}"
+          echo "🔍 ENV CONTEXT:
+          ${{ toJson(env) }}"
 
-      - name: Print commit info
+      - name: Print vars context info
         run: |
-          echo "Commit Message: ${{ github.event.head_commit.message }}"
-          echo "Author Name: ${{ github.event.head_commit.author.name }}"
-          echo "Author Email: ${{ github.event.head_commit.author.email }}"
-          echo "Added: ${{ github.event.head_commit.added }}"
-          echo "Removed: ${{ github.event.head_commit.removed }}"
-          echo "Modified: ${{ github.event.head_commit.modified }}"
-          echo "Commit ID: ${{ github.event.head_commit.id }}"
-          echo "Commit URL: ${{ github.event.head_commit.url }}"
-          echo "Tree ID: ${{ github.event.head_commit.tree_id }}"
-          echo "Commit Timestamp: ${{ github.event.head_commit.timestamp }}"
-          echo "Commit Distinct: ${{ github.event.head_commit.distinct }}"
+          echo "🔍 VARS CONTEXT:
+          ${{ toJson(vars) }}"
 
-      - name: Print event & server info
+      - name: Print job context info
         run: |
-          echo "Event Path: ${{ github.event_path }}"
-          echo "Server URL: ${{ github.server_url }}"
-          echo "API URL: ${{ github.api_url }}"
-          echo "GraphQL URL: ${{ github.graphql_url }}"
+          echo "🔍 JOB CONTEXT:
+          ${{ toJson(job) }}"
 
-      - name: Print runner info
+      - name: Print steps context info
         run: |
-          echo "Runner OS: ${{ runner.os }}"
-          echo "Runner Name: ${{ runner.name }}"
-          echo "Runner Arch: ${{ runner.arch }}"
-          echo "Runner Temp: ${{ runner.temp }}"
-          echo "Runner Tool Cache: ${{ runner.tool_cache }}"
+          echo "🔍 STEPS CONTEXT:
+          ${{ toJson(steps) }}"
+
+      - name: Print runner context info
+        run: |
+          echo "🔍 RUNNER CONTEXT:
+          ${{ toJson(runner) }}"
+
+      - name: Print secrets context info
+        run: |
+          echo "🔍 SECRETS CONTEXT:
+          ${{ toJson(secrets) }}"
+
+      - name: Print strategy context info
+        run: |
+          echo "🔍 STRATEGY CONTEXT:
+          ${{ toJson(strategy) }}"
+
+      - name: Print matrix context info
+        run: |
+          echo "🔍 MATRIX CONTEXT:
+          ${{ toJson(matrix) }}"
+
+      - name: Print needs context info
+        run: |
+          echo "🔍 NEEDS CONTEXT:
+          ${{ toJson(needs) }}"
+
+      - name: Print inputs context info
+        run: |
+          echo "🔍 INPUTS CONTEXT:
+          ${{ toJson(inputs) }}"
 
       - name: Checkout code
         uses: actions/checkout@v5
 
       - name: List files
         run: ls -la ${{ github.workspace }}
-
-      - name: Print job status
-        run: |
-          echo "🍏 Job Status: ${{ job.status }}"
-          echo "🍏 Job Container: ${{ job.container }}"
-          echo "🍏 Job Services: ${{ job.services }}"
