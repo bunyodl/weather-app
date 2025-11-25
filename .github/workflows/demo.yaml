@@ -10,60 +10,60 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Print github context info
-        run: |
-          echo "🔍 GITHUB CONTEXT:
-          ${{ toJson(github) }}"
+      - name: Dump github context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
 
-      - name: Print env context info
-        run: |
-          echo "🔍 ENV CONTEXT:
-          ${{ toJson(env) }}"
+      - name: Dump env context
+        env:
+          ENV_CONTEXT: ${{ toJson(env) }}
+        run: echo "$ENV_CONTEXT"
 
-      - name: Print vars context info
-        run: |
-          echo "🔍 VARS CONTEXT:
-          ${{ toJson(vars) }}"
+      - name: Dump vars context
+        env:
+          VARS_CONTEXT: ${{ toJson(vars) }}
+        run: echo "$VARS_CONTEXT"
 
-      - name: Print job context info
-        run: |
-          echo "🔍 JOB CONTEXT:
-          ${{ toJson(job) }}"
+      - name: Dump job context
+        env:
+          JOB_CONTEXT: ${{ toJson(job) }}
+        run: echo "$JOB_CONTEXT"
 
-      - name: Print steps context info
-        run: |
-          echo "🔍 STEPS CONTEXT:
-          ${{ toJson(steps) }}"
+      - name: Dump steps context
+        env:
+          STEPS_CONTEXT: ${{ toJson(steps) }}
+        run: echo "$STEPS_CONTEXT"
 
-      - name: Print runner context info
-        run: |
-          echo "🔍 RUNNER CONTEXT:
-          ${{ toJson(runner) }}"
+      - name: Dump runner context
+        env:
+          RUNNER_CONTEXT: ${{ toJson(runner) }}
+        run: echo "$RUNNER_CONTEXT"
 
-      - name: Print secrets context info
-        run: |
-          echo "🔍 SECRETS CONTEXT:
-          ${{ toJson(secrets) }}"
+      - name: Dump secrets context
+        env:
+          SECRETS_CONTEXT: ${{ toJson(secrets) }}
+        run: echo "$SECRETS_CONTEXT"
 
-      - name: Print strategy context info
-        run: |
-          echo "🔍 STRATEGY CONTEXT:
-          ${{ toJson(strategy) }}"
+      - name: Dump strategy context
+        env:
+          STRATEGY_CONTEXT: ${{ toJson(strategy) }}
+        run: echo "$STRATEGY_CONTEXT"
 
-      - name: Print matrix context info
-        run: |
-          echo "🔍 MATRIX CONTEXT:
-          ${{ toJson(matrix) }}"
+      - name: Dump matrix context
+        env:
+          MATRIX_CONTEXT: ${{ toJson(matrix) }}
+        run: echo "$MATRIX_CONTEXT"
 
-      - name: Print needs context info
-        run: |
-          echo "🔍 NEEDS CONTEXT:
-          ${{ toJson(needs) }}"
+      - name: Dump needs context
+        env:
+          NEEDS_CONTEXT: ${{ toJson(needs) }}
+        run: echo "$NEEDS_CONTEXT"
 
-      - name: Print inputs context info
-        run: |
-          echo "🔍 INPUTS CONTEXT:
-          ${{ toJson(inputs) }}"
+      - name: Dump inputs context
+        env:
+          INPUTS_CONTEXT: ${{ toJson(inputs) }}
+        run: echo "$INPUTS_CONTEXT"
 
       - name: Checkout code
         uses: actions/checkout@v5
