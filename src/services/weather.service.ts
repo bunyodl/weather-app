@@ -7,9 +7,8 @@ import type {
 
 const GEOCODING_API = import.meta.env.VITE_OPEN_METEO_GEOCODING_API_URL;
 const FORECAST_API = import.meta.env.VITE_OPEN_METEO_FORECAST_API_URL;
-const BIGDATACLOUD_API =
-  "https://api.bigdatacloud.net/data/reverse-geocode-client";
-const IP_API = "http://ip-api.com/json/";
+const BIGDATACLOUD_API = import.meta.env.VITE_BIGDATACLOUD_RGC_API_URL;
+const IP_API = import.meta.env.VITE_IP_API_URL;
 
 export class WeatherService {
   static async searchLocations(query: string): Promise<Location[]> {
