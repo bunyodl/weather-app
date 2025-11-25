@@ -12,58 +12,58 @@ jobs:
     steps:
       - name: Print github context info
         run: |
-          echo "🔍 GITHUB CONTEXT:
-          ${{ toJson(github) }}"
+          echo "🔍 GITHUB CONTEXT:"
+          echo '${{ toJson(github) }}'
 
       - name: Print env context info
         run: |
-          echo "🔍 ENV CONTEXT:
-          ${{ toJson(env) }}"
+          echo "🔍 ENV CONTEXT:"
+          echo '${{ toJson(env) }}'
 
       - name: Print vars context info
         run: |
-          echo "🔍 VARS CONTEXT:
-          ${{ toJson(vars) }}"
+          echo "🔍 VARS CONTEXT:"
+          echo '${{ toJson(vars) }}'
 
       - name: Print job context info
         run: |
-          echo "🔍 JOB CONTEXT:
-          ${{ toJson(job) }}"
+          echo "🔍 JOB CONTEXT:"
+          echo '${{ toJson(job) }}'
 
       - name: Print steps context info
         run: |
-          echo "🔍 STEPS CONTEXT:
-          ${{ toJson(steps) }}"
+          echo "🔍 STEPS CONTEXT:"
+          echo '${{ toJson(steps) }}'
 
       - name: Print runner context info
         run: |
-          echo "🔍 RUNNER CONTEXT:
-          ${{ toJson(runner) }}"
+          echo "🔍 RUNNER CONTEXT:"
+          echo '${{ toJson(runner) }}'
 
       - name: Print secrets context info
         run: |
-          echo "🔍 SECRETS CONTEXT:
-          ${{ toJson(secrets) }}"
+          echo "🔍 SECRETS CONTEXT:"
+          echo '${{ toJson(secrets) }}'
 
       - name: Print strategy context info
         run: |
-          echo "🔍 STRATEGY CONTEXT:
-          ${{ toJson(strategy) }}"
+          echo "🔍 STRATEGY CONTEXT:"
+          echo '${{ toJson(strategy) }}'
 
       - name: Print matrix context info
         run: |
-          echo "🔍 MATRIX CONTEXT:
-          ${{ toJson(matrix) }}"
+          echo "🔍 MATRIX CONTEXT:"
+          echo '${{ toJson(matrix) }}'
 
       - name: Print needs context info
         run: |
-          echo "🔍 NEEDS CONTEXT:
-          ${{ toJson(needs) }}"
+          echo "🔍 NEEDS CONTEXT:"
+          echo '${{ toJson(needs) }}'
 
       - name: Print inputs context info
         run: |
-          echo "🔍 INPUTS CONTEXT:
-          ${{ toJson(inputs) }}"
+          echo "🔍 INPUTS CONTEXT:"
+          echo '${{ toJson(inputs) }}'
 
       - name: Checkout code
         uses: actions/checkout@v5
